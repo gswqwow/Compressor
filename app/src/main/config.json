@@ -24,7 +24,7 @@
     "distro": {
       "deliveryWithInstall": true,
       "moduleName": "app",
-      "moduleType": "feature"
+      "moduleType": "entry"
     },
     "abilities": [
       {
