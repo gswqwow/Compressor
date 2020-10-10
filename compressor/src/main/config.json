@@ -1,7 +1,7 @@
 {
   "app": {
-    "bundleName": "com.example.myapplication",
-    "vendor": "example",
+    "bundleName": "id.zelory.compressor",
+    "vendor": "zelory",
     "version": {
       "code": 1,
       "name": "1.0"
@@ -13,13 +13,13 @@
   },
   "deviceConfig": {},
   "module": {
-    "package": "com.example.mylibrary",
+    "package": "id.zelory.compressor",
     "deviceType": [
       "tv"
     ],
     "distro": {
       "deliveryWithInstall": true,
-      "moduleName": "mylibrary",
+      "moduleName": "compressor",
       "moduleType": "har"
     }
   }

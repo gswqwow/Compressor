@@ -2,11 +2,7 @@
   "string": [
     {
       "name": "app_name",
-      "value": "MyApplication"
-    },
-    {
-      "name": "mainability_description",
-      "value": "hap sample empty page"
+      "value": "compressor"
     }
   ]
 }
