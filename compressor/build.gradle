@@ -2,6 +2,14 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'jacoco-android'
+apply plugin: 'com.huawei.ohos.library'
+
+ohos {
+    compileSdkVersion 3
+    defaultConfig {
+        compatibleSdkVersion 3
+    }
+}
 
 buildscript {
     repositories {
