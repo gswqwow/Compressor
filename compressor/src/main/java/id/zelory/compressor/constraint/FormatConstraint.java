@@ -1,5 +1,7 @@
 package id.zelory.compressor.constraint;
 
+import id.zelory.compressor.exception.Intrinsics;
+
 import java.io.File;
 
 /**
