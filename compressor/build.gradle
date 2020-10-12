@@ -9,5 +9,7 @@ ohos {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'io.mockk:mockk:1.9.3'
+    testImplementation 'com.natpryce:hamkrest:1.7.0.0'
 }

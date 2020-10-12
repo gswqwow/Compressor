@@ -35,3 +35,7 @@ allprojects {
 		jcenter()
     }
 }
+
+task rootclean(type: Delete) {
+    delete rootProject.buildDir
+}
