@@ -1,5 +1,6 @@
 package id.zelory.compressor.sample.slice;
 
+import id.zelory.compressor.Hello;
 import ohos.aafwk.ability.AbilitySlice;
 import ohos.aafwk.content.Intent;
 
@@ -26,7 +27,8 @@ public class MainAbilitySlice extends AbilitySlice {
 
         Text text = new Text(this);
         text.setLayoutConfig(config);
-        text.setText("Hello World");
+        Hello hello = new Hello();
+        text.setText(hello.getWords());
         text.setTextColor(new Color(0xFF000000));
         text.setTextSize(50);
         text.setTextAlignment(TextAlignment.CENTER);
