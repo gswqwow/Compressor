@@ -1,4 +1,4 @@
-package id.zelory.compressor.sample.exception;
+package id.zelory.compressor.exception;
 
 import java.util.Arrays;
 

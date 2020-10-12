@@ -1,4 +1,4 @@
-package id.zelory.compressor.sample.constraint;
+package id.zelory.compressor.constraint;
 
 import android.graphics.BitmapFactory;
 import id.zelory.compressor.calculateInSampleSize;

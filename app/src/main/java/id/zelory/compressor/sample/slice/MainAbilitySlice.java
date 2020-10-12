@@ -1,4 +1,4 @@
-package id.zelory.compressor.slice;
+package id.zelory.compressor.sample.slice;
 
 import ohos.aafwk.ability.AbilitySlice;
 import ohos.aafwk.content.Intent;

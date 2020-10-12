@@ -1,6 +1,6 @@
-package id.zelory.compressor.sample.constraint;
+package id.zelory.compressor.constraint;
 
-import id.zelory.compressor.sample.exception.Intrinsics;
+import id.zelory.compressor.exception.Intrinsics;
 
 import java.io.File;
 

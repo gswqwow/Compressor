@@ -1,6 +1,6 @@
 {
   "app": {
-    "bundleName": "id.zelory.compressor",
+    "bundleName": "id.zelory.compressor.sample",
     "vendor": "zelory",
     "version": {
       "code": 1,
@@ -13,7 +13,7 @@
   },
   "deviceConfig": {},
   "module": {
-    "package": "id.zelory.compressor",
+    "package": "id.zelory.compressor.sample",
     "name": ".Compressor",
     "reqCapabilities": [
       "video_support"
@@ -40,7 +40,7 @@
         ],
         "orientation": "landscape",
         "formEnabled": false,
-        "name": "id.zelory.compressor.MainAbility",
+        "name": "id.zelory.compressor.sample.MainAbility",
         "icon": "$media:icon",
         "description": "$string:mainability_description",
         "label": "Compressor",

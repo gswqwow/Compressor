@@ -1,6 +1,6 @@
-package id.zelory.compressor;
+package id.zelory.compressor.sample;
 
-import id.zelory.compressor.slice.MainAbilitySlice;
+import id.zelory.compressor.sample.slice.MainAbilitySlice;
 import ohos.aafwk.ability.Ability;
 import ohos.aafwk.content.Intent;
 

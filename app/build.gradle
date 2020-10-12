@@ -7,7 +7,7 @@ ohos {
 }
 
 dependencies {
-    implementation project(':compressor')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':compressor')
     testCompile'junit:junit:4.12'
 }

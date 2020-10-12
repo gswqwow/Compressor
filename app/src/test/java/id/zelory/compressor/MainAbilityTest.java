@@ -1,4 +1,4 @@
-package id.zelory.compressor.sample;
+package id.zelory.compressor;
 
 import org.junit.Test;
 
