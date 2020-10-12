@@ -1,10 +1,5 @@
 package id.zelory.compressor.constraint;
 
-import android.graphics.BitmapFactory;
-import id.zelory.compressor.calculateInSampleSize;
-import id.zelory.compressor.decodeSampledBitmapFromFile;
-import id.zelory.compressor.determineImageRotation;
-import id.zelory.compressor.overWrite;
 import java.io.File;
 
 /**
@@ -29,12 +24,11 @@ public class ResolutionConstraint implements Constraint {
      */
     @Override
     public boolean isSatisfied(File var1) {
-//        return BitmapFactory.Options().run {
-//            inJustDecodeBounds = true
-//            BitmapFactory.decodeFile(imageFile.absolutePath, this)
-//            calculateInSampleSize(this, width, height) <= 1
-//        }
-        return false;
+        return BitmapFactory.Options().run {
+            inJustDecodeBounds = true
+            BitmapFactory.decodeFile(imageFile.absolutePath, this)
+            calculateInSampleSize(this, width, height) <= 1
+        }
     }
 
     /**
@@ -44,11 +38,10 @@ public class ResolutionConstraint implements Constraint {
      */
     @Override
     public File satisfy(File var1) {
-//        return decodeSampledBitmapFromFile(imageFile, width, height).run {
-//            determineImageRotation(imageFile, this).run {
-//                overWrite(imageFile, this)
-//            }
-//        }
-        return null;
+        return decodeSampledBitmapFromFile(imageFile, width, height).run {
+            determineImageRotation(imageFile, this).run {
+                overWrite(imageFile, this)
+            }
+        }
     }
 }

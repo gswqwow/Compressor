@@ -3,6 +3,8 @@ package id.zelory.compressor.constraint;
 import id.zelory.compressor.exception.Intrinsics;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 /**
  * Created on : January 25, 2020
@@ -30,10 +32,11 @@ public class DestinationConstraint implements Constraint {
      * @param imageFile
      * @return
      */
-    public File satisfy( File imageFile) {
+    public File satisfy(File imageFile) {
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
-//        return FilesKt.copyTo$default(imageFile, this.destination, true, 0, 4, (Object)null);
-        return null;
+        File result = null;
+        result = Files.copy(imageFile.toPath(), this.destination.toPath()).toFile();
+        return result;
     }
 
 }

@@ -1,77 +1,47 @@
-// UtilKt.java
 package id.zelory.compressor;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.graphics.Bitmap.CompressFormat;
-import android.graphics.BitmapFactory.Options;
-import android.media.ExifInterface;
+import id.zelory.compressor.constraint.CompressFormat;
+import id.zelory.compressor.exception.Intrinsics;
+import ohos.app.Context;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.nio.file.Path;
-
-import id.zelory.compressor.exception.Intrinsics;
-import kotlin.Metadata;
-import kotlin.Pair;
-import kotlin.TuplesKt;
-import kotlin.TypeCastException;
-import kotlin.io.FilesKt;
-import kotlin.jvm.internal.Intrinsics;
-import kotlin.text.StringsKt;
-import org.jetbrains.annotations.NotNull;
 
 public final class Util {
-    private static final String separator;
+
     private static CompressFormat compressFormat;
 
     private static final String cachePath(Context context) {
         StringBuilder path = new StringBuilder();
         File cacheDir = context.getCacheDir();
         Intrinsics.checkExpressionValueIsNotNull(cacheDir, "context.cacheDir");
-        return path.append(cacheDir.getPath()).append(separator).append("compressor").append(separator).toString();
+        return path.append(cacheDir.getPath()).append(File.separator).append("compressor").append(File.separator).toString();
     }
 
     public static final CompressFormat compressFormat() {
         Intrinsics.checkParameterIsNotNull(compressFormat, "Util.compressFormat");
-        String var1 = FilesKt.getExtension(compressFormat);
-        boolean var2 = false;
-        if (var1 == null) {
-            throw new TypeCastException("null cannot be cast to non-null type java.lang.String");
-        } else {
-            String var10000 = var1.toLowerCase();
-            Intrinsics.checkExpressionValueIsNotNull(var10000, "(this as java.lang.String).toLowerCase()");
-            var1 = var10000;
-            CompressFormat var3;
-            switch(var1.hashCode()) {
-                case 111145:
-                    if (var1.equals("png")) {
-                        var3 = CompressFormat.PNG;
-                        return var3;
-                    }
-                    break;
-                case 3645340:
-                    if (var1.equals("webp")) {
-                        var3 = CompressFormat.WEBP;
-                        return var3;
-                    }
-            }
-
-            var3 = CompressFormat.JPEG;
-            return var3;
-        }
+        return compressFormat;
     }
 
-    public static final String extension(@NotNull CompressFormat $this$extension) {
-        // $FF: Couldn't be decompiled
+    public static final CompressFormat compressFormat(File imageFile) {
+        Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
+        String fileName = imageFile.getName();
+        String extension = fileName.substring(fileName.indexOf(".") + 1);
+        switch (extension){
+            case "png":
+                compressFormat = CompressFormat.PNG;
+            case "webp":
+                compressFormat = CompressFormat.WEBP;
+            default:
+                compressFormat = CompressFormat.JPEG;
+        }
+        return compressFormat;
     }
 
     public static final Bitmap loadBitmap(File imageFile) {
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
         Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
-        Intrinsics.checkExpressionValueIsNotNull(bitmap, "this");
+        Intrinsics.checkExpressionValueIsNotNull(bitmap, "bitmap");
         return determineImageRotation(imageFile, bitmap);
     }
 
@@ -90,9 +60,8 @@ public final class Util {
 
     public static final int calculateInSampleSize(Options options, int reqWidth, int reqHeight) {
         Intrinsics.checkParameterIsNotNull(options, "options");
-        Pair var5 = TuplesKt.to(options.outHeight, options.outWidth);
-        int height = ((Number)var5.component1()).intValue();
-        int width = ((Number)var5.component2()).intValue();
+        int height = ((Number)options.outHeight).intValue();
+        int width = ((Number)options.outWidth).intValue();
         int inSampleSize = 1;
         if (height > reqHeight || width > reqWidth) {
             int halfHeight = height / 2;
@@ -146,7 +115,9 @@ public final class Util {
     public static final File overWrite(File imageFile, Bitmap bitmap, CompressFormat format, int quality) {
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
         Intrinsics.checkParameterIsNotNull(bitmap, "bitmap");
-        Intrinsics.checkParameterIsNotNull(format, "format");
+        if(format == null){
+            format = compressFormat(imageFile);
+        }
         File file;
         if (format == compressFormat(imageFile)) {
             file = imageFile;
@@ -154,7 +125,7 @@ public final class Util {
             StringBuilder path = new StringBuilder();
             String imagePath = imageFile.getAbsolutePath();
             Intrinsics.checkExpressionValueIsNotNull(imagePath, "imageFile.absolutePath");
-            file = new File(path.append(StringsKt.substringBeforeLast$default(imagePath, ".", (String)null, 2, (Object)null)).append('.').append(extension(format)).toString());
+            file = new File(path.append(imagePath.substring(0, imagePath.lastIndexOf("."))).append('.').append(format.getName()).toString());
         }
 
         File result = file;
@@ -163,76 +134,53 @@ public final class Util {
         return result;
     }
 
-    public static File overWriteDefault(File file, Bitmap bitmap, CompressFormat format, int var3, int var4, Object var5) {
-        if ((var4 & 4) != 0) {
+    public static File overWriteDefault(File file, Bitmap bitmap, CompressFormat format, int quality, int flag, Object obj) {
+        if ((flag & 4) != 0) {
             format = compressFormat(file);
         }
 
-        if ((var4 & 8) != 0) {
-            var3 = 100;
+        if ((flag & 8) != 0) {
+            quality = 100;
         }
 
-        return overWrite(file, bitmap, format, var3);
+        return overWrite(file, bitmap, format, quality);
     }
 
     public static final void saveBitmap(Bitmap bitmap, File destination, CompressFormat format, int quality) {
         Intrinsics.checkParameterIsNotNull(bitmap, "bitmap");
         Intrinsics.checkParameterIsNotNull(destination, "destination");
-        Intrinsics.checkParameterIsNotNull(format, "format");
+        if(format == null){
+            format = compressFormat(destination);
+        }
         File file = destination.getParentFile();
         if (file != null) {
             file.mkdirs();
         }
 
-        FileOutputStream fileOutputStream;
-        boolean var12 = false;
-
-        boolean var7;
-        try {
-            var12 = true;
-            fileOutputStream = new FileOutputStream(destination.getAbsolutePath());
+        try (
+            FileOutputStream fileOutputStream = new FileOutputStream(destination.getAbsolutePath());
+        ){
             bitmap.compress(format, quality, (OutputStream)fileOutputStream);
-            var12 = false;
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (var12) {
-                if (fileOutputStream != null) {
-                    var7 = false;
-                    boolean var8 = false;
-                    boolean var10 = false;
-                    fileOutputStream.flush();
-                    fileOutputStream.close();
-                }
-
-            }
         }
-
-        boolean var6 = false;
-        var7 = false;
-        int var9 = false;
-        fileOutputStream.flush();
-        fileOutputStream.close();
     }
 
-    public static void saveBitmapDefault(Bitmap bitmap, File file, CompressFormat format, int var3, int var4, Object var5) {
-        if ((var4 & 4) != 0) {
+    public static void saveBitmapDefault(Bitmap bitmap, File file, CompressFormat format, int quality, int flag, Object obj) {
+        if ((flag & 4) != 0) {
             format = compressFormat(file);
         }
 
-        if ((var4 & 8) != 0) {
-            var3 = 100;
+        if ((flag & 8) != 0) {
+            quality = 100;
         }
 
-        saveBitmap(bitmap, file, format, var3);
+        saveBitmap(bitmap, file, format, quality);
     }
 
-    static {
-        separator = File.separator;
-    }
 }
 
-public final class WhenMappings {
+final class WhenMappings {
 
     public static final int[] EnumSwitchMapping = new int[CompressFormat.values().length];
 

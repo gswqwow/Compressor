@@ -1,5 +1,7 @@
 package id.zelory.compressor.constraint;
 
+import id.zelory.compressor.Util;
+
 import java.io.File;
 
 /**
@@ -12,15 +14,12 @@ public class SizeConstraint implements  Constraint{
 
     private int iteration= 0;
     private final long maxFileSize;
-    private final int stepSize;
-    private final int maxIteration;
-    private final int minQuality;
+    private final int stepSize = 10;
+    private final int maxIteration = 10;
+    private final int minQuality = 10;
 
-    public SizeConstraint(long maxFileSize, int stepSize, int maxIteration, int minQuality) {
+    public SizeConstraint(long maxFileSize) {
         this.maxFileSize = maxFileSize;
-        this.stepSize = stepSize;
-        this.maxIteration = maxIteration;
-        this.minQuality = minQuality;
     }
 
     @Override
@@ -34,10 +33,9 @@ public class SizeConstraint implements  Constraint{
      * @return
      */
     @Override
-    public File satisfy(File var1) {
+    public File satisfy(File imageFile) {
         iteration++;
-//        val quality = (100 - iteration * stepSize).takeIf { it >= minQuality } ?: minQuality;
-//        return overWrite(imageFile, loadBitmap(imageFile), quality = quality)
-        return null;
+        int quality = (100 - iteration * stepSize).takeIf { it >= minQuality } ?: minQuality;
+        return Util.overWrite(imageFile, Util.loadBitmap(imageFile), null, quality);
     }
 }

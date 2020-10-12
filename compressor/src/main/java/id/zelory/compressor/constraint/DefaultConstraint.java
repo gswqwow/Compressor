@@ -13,14 +13,14 @@ import java.io.File;
 public class DefaultConstraint implements Constraint{
 
     public boolean isResolved = false;
+    private final int width = 612;
+    private final int height = 816;
+    private final CompressFormat format = CompressFormat.JPEG;
+    private final int quality = 80;
 
-    public DefaultConstraint(int width, int height,CompressFormat format, int quality) {
-        super();
-        Intrinsics.checkParameterIsNotNull(format,"format");
-        this.width = width;
-        this.height = height;
-        this.format = format;
-        this.quality = quality;
+
+    public DefaultConstraint() {
+
     }
 
     @Override

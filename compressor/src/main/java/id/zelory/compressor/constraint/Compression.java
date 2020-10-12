@@ -36,7 +36,7 @@ public class Compression {
         width = width == 0 ? 612 : width;
         height = height == 0 ? 816 : height;
         quality = quality == 0 ? 80 : quality;
-        this.constraint(new DefaultConstraint(width, height, format, quality));
+        this.constraint(new DefaultConstraint());
     }
     public void destination(File destination){
         Intrinsics.checkParameterIsNotNull(destination,"destination");
@@ -52,7 +52,6 @@ public class Compression {
         constraint(new FormatConstraint(format));
     }
     public void quality(int quality){
-        Intrinsics.checkParameterIsNotNull(format, "format");
         constraint(new QualityConstraint(quality));
     }
     public void resolution( int width, int height){
@@ -68,6 +67,6 @@ public class Compression {
     public void size(long maxFileSize, int stepSize, int maxIteration){
         stepSize = stepSize == 0 ? 10 : stepSize;
         maxIteration = maxIteration == 0 ? 10 : maxIteration;
-        constraint(new SizeConstraint(maxFileSize, stepSize, maxIteration));
+        constraint(new SizeConstraint(maxFileSize));
     }
 }

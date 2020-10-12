@@ -1,5 +1,6 @@
 package id.zelory.compressor.constraint;
 
+import id.zelory.compressor.Util;
 import id.zelory.compressor.exception.Intrinsics;
 
 import java.io.File;
@@ -11,7 +12,12 @@ import java.io.File;
  * GitHub     : https://github.com/zetbaitsu
  */
 class FormatConstraint implements Constraint {
+
     private final CompressFormat format;
+
+    public FormatConstraint(CompressFormat format) {
+        this.format = format;
+    }
 
     /**
      * TODO 未完成
@@ -21,8 +27,7 @@ class FormatConstraint implements Constraint {
     @Override
     public boolean isSatisfied(File imageFile) {
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
-//        return this.format == UtilKt.compressFormat(imageFile);
-        return false;
+        return this.format == Util.compressFormat(imageFile);
     }
 
     /**
@@ -33,8 +38,7 @@ class FormatConstraint implements Constraint {
     @Override
     public File satisfy(File imageFile) {
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
-        return UtilKt.overWrite$default(imageFile, UtilKt.loadBitmap(imageFile), this.format, 0, 8, (Object)null);
+        return Util.overWriteDefault(imageFile, Util.loadBitmap(imageFile), this.format, 0, 8, (Object)null);
 
-        return null;
     }
 }

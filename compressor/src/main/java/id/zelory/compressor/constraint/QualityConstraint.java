@@ -1,8 +1,7 @@
 package id.zelory.compressor.constraint;
 
+import id.zelory.compressor.Util;
 import id.zelory.compressor.exception.Intrinsics;
-import id.zelory.compressor.loadBitmap;
-import id.zelory.compressor.overWrite;
 
 import java.io.File;
 
@@ -35,10 +34,9 @@ public class QualityConstraint implements Constraint {
     @Override
     public File satisfy(File imageFile) {
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
-//        File result = UtilKt.overWrite$default(imageFile, UtilKt.loadBitmap(imageFile), (CompressFormat)null, this.quality, 4, (Object)null);
+        File result = Util.overWriteDefault(imageFile, Util.loadBitmap(imageFile), null, this.quality, 4, null);
         this.isResolved = true;
-//        return result;
-        return null;
+        return result;
     }
 }
 
