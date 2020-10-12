@@ -1,4 +1,4 @@
-package id.zelory.compressor.constraint;
+package id.zelory.compressor.sample.constraint;
 
 import java.io.File;
 

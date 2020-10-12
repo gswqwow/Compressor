@@ -1,8 +1,9 @@
-package id.zelory.compressor.constraint;
+package id.zelory.compressor.sample.constraint;
 
-import id.zelory.compressor.exception.Intrinsics;
+import id.zelory.compressor.sample.exception.Intrinsics;
 import id.zelory.compressor.loadBitmap;
 import id.zelory.compressor.overWrite;
+
 import java.io.File;
 
 /**
