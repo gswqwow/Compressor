@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-class Compression {
+public class Compression {
     private final List<Constraint> constraints;
 
     public Compression() {
@@ -25,7 +25,7 @@ class Compression {
     }
 
     /**
-     * todo
+     * TODO
      * @param width
      * @param height
      * @param format
@@ -43,6 +43,10 @@ class Compression {
         this.constraint(new DestinationConstraint(destination));
     }
 
+    /**
+     * TODO
+     * @param format
+     */
     public void format(CompressFormat format){
         Intrinsics.checkParameterIsNotNull(format, "format");
         constraint(new FormatConstraint(format));
@@ -53,5 +57,17 @@ class Compression {
     }
     public void resolution( int width, int height){
         constraint(new ResolutionConstraint(width, height));
+    }
+
+    /**
+     * TODO
+     * @param maxFileSize
+     * @param stepSize
+     * @param maxIteration
+     */
+    public void size(long maxFileSize, int stepSize, int maxIteration){
+        stepSize = stepSize == 0 ? 10 : stepSize;
+        maxIteration = maxIteration == 0 ? 10 : maxIteration;
+        constraint(new SizeConstraint(maxFileSize, stepSize, maxIteration));
     }
 }
