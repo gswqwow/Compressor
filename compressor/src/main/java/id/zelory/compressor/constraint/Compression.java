@@ -38,6 +38,15 @@ public class Compression {
         quality = quality == 0 ? 80 : quality;
         this.constraint(new DefaultConstraint());
     }
+
+    public void compressionDefault() {
+        Intrinsics.checkParameterIsNotNull(format,"format");
+        width = 612;
+        height = 816;
+        quality = 80;
+        this.constraint(new DefaultConstraint());
+    }
+
     public void destination(File destination){
         Intrinsics.checkParameterIsNotNull(destination,"destination");
         this.constraint(new DestinationConstraint(destination));
