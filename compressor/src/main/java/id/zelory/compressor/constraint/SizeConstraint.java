@@ -29,13 +29,13 @@ public class SizeConstraint implements  Constraint{
 
     /**
      * TODO
-     * @param var1
+     * @param imageFile
      * @return
      */
     @Override
     public File satisfy(File imageFile) {
         iteration++;
-        int quality = (100 - iteration * stepSize).takeIf { it >= minQuality } ?: minQuality;
+        int quality = (100 - iteration * stepSize) >= minQuality ? (100 - iteration * stepSize) : minQuality;
         return Util.overWrite(imageFile, Util.loadBitmap(imageFile), null, quality);
     }
 }
