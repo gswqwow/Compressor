@@ -48,25 +48,28 @@ public final class Util {
 
     public static final PixelMap decodeSampledBitmapFromFile(File imageFile, int reqWidth, int reqHeight) {
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
-        ImageSource imageSource = ImageSource.create(imageFile.getAbsolutePath(),null);
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-        options.inJustDecodeBounds = false;
-        PixelMap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
+        ImageSource.IncrementalSourceOptions incOpts = new ImageSource.IncrementalSourceOptions();
+        incOpts.mode = ImageSource.UpdateMode.INCREMENTAL_DATA;
+        ImageSource imageSource = ImageSource.createIncrementalSource(incOpts);
+        imageSource.updateData(, false);
+        ImageSource.DecodingOptions decodingOpts = new ImageSource.DecodingOptions();
+        PixelMap bitmap = imageSource.createPixelmap(decodingOpts);
+        decodingOpts.sampleSize = calculateInSampleSize(bitmap, reqWidth, reqHeight);
+        imageSource.updateData(data, true);
+        bitmap = imageSource.createPixelmap(decodingOpts);
         Intrinsics.checkExpressionValueIsNotNull(bitmap, "BitmapFactory.decodeFile…eFile.absolutePath, this)");
         Intrinsics.checkExpressionValueIsNotNull(bitmap, "BitmapFactory.Options().…absolutePath, this)\n    }");
         return bitmap;
     }
 
-    public static final int calculateInSampleSize(Options options, int reqWidth, int reqHeight) {
-        Intrinsics.checkParameterIsNotNull(options, "options");
-        int height = ((Number)options.outHeight).intValue();
-        int width = ((Number)options.outWidth).intValue();
+    public static final int calculateInSampleSize(PixelMap bitmap, int reqWidth, int reqHeight) {
+        Intrinsics.checkParameterIsNotNull(bitmap, "bitmap");
+        int height = bitmap.getImageInfo().size.height;
+        int width = bitmap.getImageInfo().size.width;
         int inSampleSize = 1;
+
         if (height > reqHeight || width > reqWidth) {
             int halfHeight = height / 2;
-
             for(int halfWidth = width / 2; halfHeight / inSampleSize >= reqHeight && halfWidth / inSampleSize >= reqWidth; inSampleSize *= 2) {
             }
         }
