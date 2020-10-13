@@ -1,7 +1,7 @@
 package id.zelory.compressor;
 
 import id.zelory.compressor.constraint.CompressFormat;
-import id.zelory.compressor.exception.Intrinsics;
+import id.zelory.compressor.extutil.Intrinsics;
 import ohos.app.Context;
 
 import java.io.*;
@@ -27,14 +27,12 @@ public final class Util {
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
         String fileName = imageFile.getName();
         String extension = fileName.substring(fileName.indexOf(".") + 1);
-        switch (extension){
-            case "png":
-                compressFormat = CompressFormat.PNG;
-            case "webp":
-                compressFormat = CompressFormat.WEBP;
-            default:
-                compressFormat = CompressFormat.JPEG;
-        }
+        if("png".equals(extension))
+            compressFormat = CompressFormat.PNG;
+        else if("webp".equals(extension))
+            compressFormat = CompressFormat.WEBP;
+        else
+            compressFormat = CompressFormat.JPEG;
         return compressFormat;
     }
 

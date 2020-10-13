@@ -1,6 +1,6 @@
 package id.zelory.compressor.constraint;
 
-import id.zelory.compressor.exception.Intrinsics;
+import id.zelory.compressor.extutil.Intrinsics;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,7 +35,11 @@ public class DestinationConstraint implements Constraint {
     public File satisfy(File imageFile) {
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
         File result = null;
-        result = Files.copy(imageFile.toPath(), this.destination.toPath()).toFile();
+        try {
+            result = Files.copy(imageFile.toPath(), this.destination.toPath()).toFile();
+        } catch (IOException e) {
+            return null;
+        }
         return result;
     }
 
