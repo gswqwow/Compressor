@@ -1,6 +1,8 @@
 package id.zelory.compressor.constraint;
 
+import id.zelory.compressor.Util;
 import id.zelory.compressor.extutil.Intrinsics;
+import ohos.media.image.PixelMap;
 
 import java.io.File;
 
@@ -30,18 +32,15 @@ public class DefaultConstraint implements Constraint{
     }
 
     /**
-     * todo 未完成
-     * @param var1
+     * @param imageFile
      * @return
      */
     @Override
-    public File satisfy(File var1) {
-        val result = decodeSampledBitmapFromFile(imageFile, width, height).run {
-            determineImageRotation(imageFile, this).run {
-                overWrite(imageFile, this, format, quality)
-            }
-        }
-        isResolved = true
-        return result
+    public File satisfy(File imageFile) {
+        PixelMap bitmap = Util.decodeSampledBitmapFromFile(imageFile, width, height);
+        PixelMap newBitmap = Util.determineImageRotation(imageFile, bitmap);
+        File result = Util.overWrite(imageFile, newBitmap, format, quality);
+        isResolved = true;
+        return result;
     }
 }
