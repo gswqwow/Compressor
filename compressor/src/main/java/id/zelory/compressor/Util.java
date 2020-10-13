@@ -40,15 +40,15 @@ public final class Util {
 
     public static final PixelMap loadBitmap(File imageFile) {
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
-        ImageSource.create(imageFile, null);
-        PixelMap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+        ImageSource imageSource = ImageSource.create(imageFile.getAbsolutePath(),null);
+        PixelMap bitmap = imageSource.createPixelmap(null);
         Intrinsics.checkExpressionValueIsNotNull(bitmap, "bitmap");
         return determineImageRotation(imageFile, bitmap);
     }
 
     public static final PixelMap decodeSampledBitmapFromFile(File imageFile, int reqWidth, int reqHeight) {
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
-        ImageSource.SourceOptions options = new ImageSource.SourceOptions();
+        ImageSource imageSource = ImageSource.create(imageFile.getAbsolutePath(),null);
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
         options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
