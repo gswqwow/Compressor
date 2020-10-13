@@ -9,7 +9,11 @@ import java.util.List;
 
 
 public class Compression {
-    private final List<Constraint> constraints;
+    public final List<Constraint> constraints;
+    int width = 612;
+    int height = 816;
+    int quality = 80;
+    CompressFormat format = CompressFormat.JPEG;
 
     public Compression() {
         this.constraints  = new ArrayList<Constraint>();
@@ -26,24 +30,8 @@ public class Compression {
 
     /**
      * TODO
-     * @param width
-     * @param height
-     * @param format
-     * @param quality
      */
-    public void compressionDefault(int width, int height,  CompressFormat format, int quality) {
-        Intrinsics.checkParameterIsNotNull(format,"format");
-        width = width == 0 ? 612 : width;
-        height = height == 0 ? 816 : height;
-        quality = quality == 0 ? 80 : quality;
-        this.constraint(new DefaultConstraint());
-    }
-
-    public void compressionDefault() {
-        Intrinsics.checkParameterIsNotNull(format,"format");
-        width = 612;
-        height = 816;
-        quality = 80;
+    public void compressionDefault( ) {
         this.constraint(new DefaultConstraint());
     }
 

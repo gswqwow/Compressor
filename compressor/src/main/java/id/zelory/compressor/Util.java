@@ -3,6 +3,8 @@ package id.zelory.compressor;
 import id.zelory.compressor.constraint.CompressFormat;
 import id.zelory.compressor.extutil.Intrinsics;
 import ohos.app.Context;
+import ohos.media.image.ImageSource;
+import ohos.media.image.PixelMap;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -36,21 +38,22 @@ public final class Util {
         return compressFormat;
     }
 
-    public static final Bitmap loadBitmap(File imageFile) {
+    public static final PixelMap loadBitmap(File imageFile) {
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
-        Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+        ImageSource.create(imageFile, null);
+        PixelMap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
         Intrinsics.checkExpressionValueIsNotNull(bitmap, "bitmap");
         return determineImageRotation(imageFile, bitmap);
     }
 
-    public static final Bitmap decodeSampledBitmapFromFile(File imageFile, int reqWidth, int reqHeight) {
+    public static final PixelMap decodeSampledBitmapFromFile(File imageFile, int reqWidth, int reqHeight) {
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
-        Options options = new Options();
+        ImageSource.SourceOptions options = new ImageSource.SourceOptions();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
         options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
         options.inJustDecodeBounds = false;
-        Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
+        PixelMap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
         Intrinsics.checkExpressionValueIsNotNull(bitmap, "BitmapFactory.decodeFile…eFile.absolutePath, this)");
         Intrinsics.checkExpressionValueIsNotNull(bitmap, "BitmapFactory.Options().…absolutePath, this)\n    }");
         return bitmap;
@@ -71,7 +74,7 @@ public final class Util {
         return inSampleSize;
     }
 
-    public static final Bitmap determineImageRotation(File imageFile, Bitmap bitmap) {
+    public static final PixelMap determineImageRotation(File imageFile, PixelMap bitmap) {
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
         Intrinsics.checkParameterIsNotNull(bitmap, "bitmap");
         ExifInterface exif = new ExifInterface(imageFile.getAbsolutePath());
@@ -92,7 +95,7 @@ public final class Util {
                 matrix.postRotate(270.0F);
         }
 
-        Bitmap result = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        PixelMap result = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
         Intrinsics.checkExpressionValueIsNotNull(result, "Bitmap.createBitmap(bitm…map.height, matrix, true)");
         return result;
     }
@@ -110,7 +113,7 @@ public final class Util {
         return result;
     }
 
-    public static final File overWrite(File imageFile, Bitmap bitmap, CompressFormat format, int quality) {
+    public static final File overWrite(File imageFile, PixelMap bitmap, CompressFormat format, int quality) {
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
         Intrinsics.checkParameterIsNotNull(bitmap, "bitmap");
         if(format == null){
@@ -132,7 +135,7 @@ public final class Util {
         return result;
     }
 
-    public static File overWriteDefault(File file, Bitmap bitmap, CompressFormat format, int quality, int flag, Object obj) {
+    public static File overWriteDefault(File file, PixelMap bitmap, CompressFormat format, int quality, int flag, Object obj) {
         if ((flag & 4) != 0) {
             format = compressFormat(file);
         }
@@ -144,7 +147,7 @@ public final class Util {
         return overWrite(file, bitmap, format, quality);
     }
 
-    public static final void saveBitmap(Bitmap bitmap, File destination, CompressFormat format, int quality) {
+    public static final void saveBitmap(PixelMap bitmap, File destination, CompressFormat format, int quality) {
         Intrinsics.checkParameterIsNotNull(bitmap, "bitmap");
         Intrinsics.checkParameterIsNotNull(destination, "destination");
         if(format == null){
@@ -164,7 +167,7 @@ public final class Util {
         }
     }
 
-    public static void saveBitmapDefault(Bitmap bitmap, File file, CompressFormat format, int quality, int flag, Object obj) {
+    public static void saveBitmapDefault(PixelMap bitmap, File file, CompressFormat format, int quality, int flag, Object obj) {
         if ((flag & 4) != 0) {
             format = compressFormat(file);
         }
