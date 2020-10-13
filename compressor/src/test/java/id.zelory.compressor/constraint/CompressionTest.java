@@ -10,9 +10,9 @@ public final class CompressionTest {
     public final void add_constraint_should_save_it_to_constraint_list() {
         Compression compression = new Compression();
 
-        Constraint mockk = mock(DefaultConstraint.class);
-        compression.constraint(mockk);
-        compression.constraint(mockk);
+        Constraint mock = mock(DefaultConstraint.class);
+        compression.constraint(mock);
+        compression.constraint(mock);
 
         // Then
         assertEquals(compression.constraints.size(), 2);
