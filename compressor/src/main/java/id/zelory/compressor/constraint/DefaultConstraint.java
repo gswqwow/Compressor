@@ -36,13 +36,12 @@ public class DefaultConstraint implements Constraint{
      */
     @Override
     public File satisfy(File var1) {
-//        val result = decodeSampledBitmapFromFile(imageFile, width, height).run {
-//            determineImageRotation(imageFile, this).run {
-//                overWrite(imageFile, this, format, quality)
-//            }
-//        }
-//        isResolved = true
-//        return result
-        return null;
+        val result = decodeSampledBitmapFromFile(imageFile, width, height).run {
+            determineImageRotation(imageFile, this).run {
+                overWrite(imageFile, this, format, quality)
+            }
+        }
+        isResolved = true
+        return result
     }
 }

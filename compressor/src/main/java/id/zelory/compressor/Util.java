@@ -3,8 +3,11 @@ package id.zelory.compressor;
 import id.zelory.compressor.constraint.CompressFormat;
 import id.zelory.compressor.extutil.Intrinsics;
 import ohos.app.Context;
+import ohos.media.image.ImagePacker;
 import ohos.media.image.ImageSource;
+import ohos.media.image.ImageSource.IncrementalSourceOptions;
 import ohos.media.image.PixelMap;
+import ohos.media.image.common.Size;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -49,24 +52,23 @@ public final class Util {
     public static final PixelMap decodeSampledBitmapFromFile(File imageFile, int reqWidth, int reqHeight) {
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
         ImageSource imageSource = ImageSource.create(imageFile.getAbsolutePath(),null);
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-        options.inJustDecodeBounds = false;
-        PixelMap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
+        Size size = imageSource.getImageInfo().size;
+        ImageSource.DecodingOptions decodingOpts = new ImageSource.DecodingOptions();
+        decodingOpts.sampleSize = calculateInSampleSize(size, reqWidth, reqHeight);
+        PixelMap bitmap = imageSource.createPixelmap(decodingOpts);
         Intrinsics.checkExpressionValueIsNotNull(bitmap, "BitmapFactory.decodeFile…eFile.absolutePath, this)");
         Intrinsics.checkExpressionValueIsNotNull(bitmap, "BitmapFactory.Options().…absolutePath, this)\n    }");
         return bitmap;
     }
 
-    public static final int calculateInSampleSize(Options options, int reqWidth, int reqHeight) {
-        Intrinsics.checkParameterIsNotNull(options, "options");
-        int height = ((Number)options.outHeight).intValue();
-        int width = ((Number)options.outWidth).intValue();
+    public static final int calculateInSampleSize(Size size, int reqWidth, int reqHeight) {
+        Intrinsics.checkParameterIsNotNull(size, "size");
+        int height = size.height;
+        int width = size.width;
         int inSampleSize = 1;
+
         if (height > reqHeight || width > reqWidth) {
             int halfHeight = height / 2;
-
             for(int halfWidth = width / 2; halfHeight / inSampleSize >= reqHeight && halfWidth / inSampleSize >= reqWidth; inSampleSize *= 2) {
             }
         }
@@ -161,7 +163,13 @@ public final class Util {
         try (
             FileOutputStream fileOutputStream = new FileOutputStream(destination.getAbsolutePath());
         ){
-            bitmap.compress(format, quality, (OutputStream)fileOutputStream);
+            ImagePacker imagePacker = ImagePacker.create();
+            ImagePacker.PackingOptions packingOptions = new ImagePacker.PackingOptions();
+            packingOptions.format = "image/jpeg"; //TODO 鸿蒙目前只支持jpeg编码，且这里的格式是MIME-TYPE格式
+            packingOptions.quality = quality;
+            imagePacker.initializePacking(fileOutputStream, packingOptions);
+            imagePacker.addImage(bitmap);
+            imagePacker.finalizePacking();
         } catch (IOException e) {
             e.printStackTrace();
         }
