@@ -121,6 +121,9 @@ public final class Util {
         if(format == null){
             format = compressFormat(imageFile);
         }
+        if(quality == 0){
+            quality = 100;
+        }
         File file;
         if (format == compressFormat(imageFile)) {
             file = imageFile;

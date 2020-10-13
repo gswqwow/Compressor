@@ -1,5 +1,10 @@
 package id.zelory.compressor.constraint;
 
+import id.zelory.compressor.Util;
+import ohos.media.image.ImageSource;
+import ohos.media.image.PixelMap;
+import ohos.media.image.common.Size;
+
 import java.io.File;
 
 /**
@@ -18,30 +23,24 @@ public class ResolutionConstraint implements Constraint {
      }
 
     /**
-     * TODO
-     * @param var1
+     * @param imageFile
      * @return
      */
     @Override
-    public boolean isSatisfied(File var1) {
-        return BitmapFactory.Options().run {
-            inJustDecodeBounds = true
-            BitmapFactory.decodeFile(imageFile.absolutePath, this)
-            calculateInSampleSize(this, width, height) <= 1
-        }
+    public boolean isSatisfied(File imageFile) {
+        ImageSource imageSource = ImageSource.create(imageFile.getAbsolutePath(), null);
+        Size size = imageSource.getImageInfo().size;
+        return Util.calculateInSampleSize(size, width, height) <= 1;
     }
 
     /**
-     * TODO
-     * @param var1
+     * @param imageFile
      * @return
      */
     @Override
-    public File satisfy(File var1) {
-        return decodeSampledBitmapFromFile(imageFile, width, height).run {
-            determineImageRotation(imageFile, this).run {
-                overWrite(imageFile, this)
-            }
-        }
+    public File satisfy(File imageFile) {
+        PixelMap bitmap = Util.decodeSampledBitmapFromFile(imageFile, width, height);
+        PixelMap newBitmap = Util.determineImageRotation(imageFile, bitmap);
+        return Util.overWrite(imageFile, newBitmap, null, 0);
     }
 }
