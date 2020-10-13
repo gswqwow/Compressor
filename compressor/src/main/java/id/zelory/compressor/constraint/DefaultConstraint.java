@@ -38,8 +38,7 @@ public class DefaultConstraint implements Constraint{
     @Override
     public File satisfy(File imageFile) {
         PixelMap bitmap = Util.decodeSampledBitmapFromFile(imageFile, width, height);
-        PixelMap newBitmap = Util.determineImageRotation(imageFile, bitmap);
-        File result = Util.overWrite(imageFile, newBitmap, format, quality);
+        File result = Util.overWrite(imageFile, bitmap, format, quality);
         isResolved = true;
         return result;
     }

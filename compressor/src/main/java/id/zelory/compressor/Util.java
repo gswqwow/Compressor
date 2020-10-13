@@ -1,7 +1,12 @@
 package id.zelory.compressor;
 
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.imaging.ImageProcessingException;
+import com.drew.metadata.MetadataException;
+import com.drew.metadata.exif.ExifDirectoryBase;
 import id.zelory.compressor.constraint.CompressFormat;
 import id.zelory.compressor.extutil.Intrinsics;
+import ohos.agp.utils.Matrix;
 import ohos.app.Context;
 import ohos.media.image.ImagePacker;
 import ohos.media.image.ImageSource;
@@ -11,6 +16,7 @@ import ohos.media.image.common.Size;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.util.Collection;
 
 public final class Util {
 
@@ -44,9 +50,11 @@ public final class Util {
     public static final PixelMap loadBitmap(File imageFile) {
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
         ImageSource imageSource = ImageSource.create(imageFile.getAbsolutePath(),null);
-        PixelMap bitmap = imageSource.createPixelmap(null);
+        ImageSource.DecodingOptions decodingOpts = new ImageSource.DecodingOptions();
+        decodingOpts.rotateDegrees = determineImageRotation(imageFile);
+        PixelMap bitmap = imageSource.createPixelmap(decodingOpts);
         Intrinsics.checkExpressionValueIsNotNull(bitmap, "bitmap");
-        return determineImageRotation(imageFile, bitmap);
+        return bitmap;
     }
 
     public static final PixelMap decodeSampledBitmapFromFile(File imageFile, int reqWidth, int reqHeight) {
@@ -55,6 +63,7 @@ public final class Util {
         Size size = imageSource.getImageInfo().size;
         ImageSource.DecodingOptions decodingOpts = new ImageSource.DecodingOptions();
         decodingOpts.sampleSize = calculateInSampleSize(size, reqWidth, reqHeight);
+        decodingOpts.rotateDegrees = determineImageRotation(imageFile);
         PixelMap bitmap = imageSource.createPixelmap(decodingOpts);
         Intrinsics.checkExpressionValueIsNotNull(bitmap, "BitmapFactory.decodeFile…eFile.absolutePath, this)");
         Intrinsics.checkExpressionValueIsNotNull(bitmap, "BitmapFactory.Options().…absolutePath, this)\n    }");
@@ -76,31 +85,64 @@ public final class Util {
         return inSampleSize;
     }
 
-    public static final PixelMap determineImageRotation(File imageFile, PixelMap bitmap) {
+    public static final float determineImageRotation(File imageFile){
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
-        Intrinsics.checkParameterIsNotNull(bitmap, "bitmap");
-        ExifInterface exif = new ExifInterface(imageFile.getAbsolutePath());
-        int orientation = exif.getAttributeInt("Orientation", 0);
-        Matrix matrix = new Matrix();
+        int orientation = 0;
+        try {
+            com.drew.metadata.Metadata metadata = ImageMetadataReader.readMetadata(imageFile);
+            Collection<ExifDirectoryBase> imageDirectories = metadata.getDirectoriesOfType(ExifDirectoryBase.class);
+            for(ExifDirectoryBase director : imageDirectories)
+            {
+                if (director.containsTag(ExifDirectoryBase.TAG_ORIENTATION))
+                {
+                    orientation = director.getInt(ExifDirectoryBase.TAG_ORIENTATION);
+                    break;
+                }
+            }
+        } catch (ImageProcessingException e) {
+        } catch (MetadataException e) {
+        } catch (IOException e) {
+        }
+        float rotation = 0f;
         switch(orientation) {
             case 3:
-                matrix.postRotate(180.0F);
+                rotation = 180f;
+                break;
             case 4:
             case 5:
             case 7:
-            default:
-                break;
             case 6:
-                matrix.postRotate(90.0F);
-                break;
+                rotation = 90f;
             case 8:
-                matrix.postRotate(270.0F);
+                rotation = 270f;
         }
-
-        PixelMap result = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-        Intrinsics.checkExpressionValueIsNotNull(result, "Bitmap.createBitmap(bitm…map.height, matrix, true)");
-        return result;
+        return rotation;
     }
+
+//    public static final PixelMap determineImageRotation(File imageFile, PixelMap bitmap) {
+//        Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
+//        Intrinsics.checkParameterIsNotNull(bitmap, "bitmap");
+//
+//        Matrix matrix = new Matrix();
+//        switch(orientation) {
+//            case 3:
+//                matrix.postRotate(180.0F);
+//            case 4:
+//            case 5:
+//            case 7:
+//            default:
+//                break;
+//            case 6:
+//                matrix.postRotate(90.0F);
+//                break;
+//            case 8:
+//                matrix.postRotate(270.0F);
+//        }
+//
+//        PixelMap result = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+//        Intrinsics.checkExpressionValueIsNotNull(result, "Bitmap.createBitmap(bitm…map.height, matrix, true)");
+//        return result;
+//    }
 
     public static final File copyToCache(Context context, File imageFile) {
         Intrinsics.checkParameterIsNotNull(context, "context");

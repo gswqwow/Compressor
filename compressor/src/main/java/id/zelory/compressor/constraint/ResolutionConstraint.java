@@ -40,7 +40,6 @@ public class ResolutionConstraint implements Constraint {
     @Override
     public File satisfy(File imageFile) {
         PixelMap bitmap = Util.decodeSampledBitmapFromFile(imageFile, width, height);
-        PixelMap newBitmap = Util.determineImageRotation(imageFile, bitmap);
-        return Util.overWrite(imageFile, newBitmap, null, 0);
+        return Util.overWrite(imageFile, bitmap, null, 0);
     }
 }
