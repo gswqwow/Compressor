@@ -12,14 +12,13 @@ import java.io.File;
  * Name       : Zetra
  * GitHub     : https://github.com/zetbaitsu
  */
-public class DefaultConstraint implements Constraint{
+public class DefaultConstraint implements Constraint {
 
     private boolean isResolved = false;
     private static final int DEF_WIDTH = 612;
     private static final int DEF_HEIGHT = 816;
     private static final CompressFormat DEF_FORMAT = CompressFormat.JPEG;
     private static final int DEF_QUALITY = 80;
-
 
     public DefaultConstraint() {
 
