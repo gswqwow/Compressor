@@ -65,7 +65,7 @@ class FileUtil {
     }
 
     private static String getFileName(Context context, Uri uri) {
-        DataAbilityHelper helper = DataAbilityHelper.creator(context, uri);
+//        DataAbilityHelper helper = DataAbilityHelper.creator(context, uri);
         String result = null;
 //        if (uri.getScheme().equals("content")) {
 //            Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);

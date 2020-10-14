@@ -1,4 +1,12 @@
 {
+  "reqPermissions": [
+    {
+      "name": "ohos.permission.READ_MEDIA"
+    },
+    {
+      "name": "ohos.permission.WRITE_MEDIA"
+    }
+  ],
   "app": {
     "bundleName": "id.zelory.compressor.sample",
     "vendor": "zelory",
