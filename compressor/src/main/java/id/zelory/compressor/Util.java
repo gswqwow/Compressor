@@ -14,7 +14,6 @@ import ohos.media.image.common.Size;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.util.Collection;
 
 public final class Util {
     private static CompressFormat compressFormat;
