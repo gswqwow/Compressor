@@ -10,9 +10,8 @@ import java.io.File;
  * Name       : Zetra
  * GitHub     : https://github.com/zetbaitsu
  */
-public class SizeConstraint implements  Constraint{
-
-    private int iteration= 0;
+public class SizeConstraint implements Constraint {
+    private int iteration = 0;
     private long maxFileSize;
     private final static int STEP_SIZE = 10;
     private final static int MAX_ITERATION = 10;

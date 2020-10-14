@@ -20,7 +20,7 @@ public class ResolutionConstraint implements Constraint {
     public ResolutionConstraint(int width, int height) {
         this.width = width;
         this.height = height;
-     }
+    }
 
     public boolean isSatisfied(File imageFile) {
         ImageSource imageSource = ImageSource.create(imageFile.getAbsolutePath(), null);

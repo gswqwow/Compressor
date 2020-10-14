@@ -15,13 +15,13 @@ import java.nio.file.Files;
 public class DestinationConstraint implements Constraint {
     private final File destination;
 
-    public DestinationConstraint( File destination) {
+    public DestinationConstraint(File destination) {
         super();
         Intrinsics.checkParameterIsNotNull(destination, "destination");
         this.destination = destination;
     }
 
-    public boolean isSatisfied( File imageFile) {
+    public boolean isSatisfied(File imageFile) {
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
         return Intrinsics.areEqual(imageFile.getAbsolutePath(), this.destination.getAbsolutePath());
     }
@@ -37,5 +37,4 @@ public class DestinationConstraint implements Constraint {
         }
         return result;
     }
-
 }

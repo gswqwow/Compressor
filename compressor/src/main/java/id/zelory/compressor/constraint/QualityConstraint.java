@@ -14,9 +14,9 @@ import java.io.File;
 public class QualityConstraint implements Constraint {
     private boolean isResolved = false;
 
-    private final  int quality;
+    private final int quality;
 
-    public QualityConstraint(int quality){
+    public QualityConstraint(int quality) {
         this.quality = quality;
     }
 
