@@ -3,11 +3,10 @@ package id.zelory.compressor.sample;
 import ohos.aafwk.ability.DataAbilityHelper;
 import ohos.aafwk.ability.DataAbilityRemoteException;
 import ohos.app.Context;
-import ohos.hiviewdfx.HiLog;
-import ohos.hiviewdfx.HiLogLabel;
 import ohos.utils.net.Uri;
 
 import java.io.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -25,24 +24,22 @@ class FileUtil {
 
     }
 
-    public static File from(Context context, Uri uri) throws IOException {
+    public static File from(Context context, Uri uri) throws DataAbilityRemoteException, IOException {
         DataAbilityHelper helper = DataAbilityHelper.creator(context, uri);
-        InputStream inputStream = null;
+        FileDescriptor fd = helper.openFile(uri, null);
+
+        InputStream inputStream = new FileInputStream(fd);
+        String fileName = getFileName(context, uri);
+        String[] splitName = splitFileName(fileName);
+        File tempFile = File.createTempFile(splitName[0], splitName[1]);
+        tempFile = rename(tempFile, fileName);
+        tempFile.deleteOnExit();
+
         FileOutputStream out = null;
-        File tempFile = null;
         try {
-            FileDescriptor fd = helper.openFile(uri, null);
-            inputStream = new FileInputStream(fd);
-            String fileName = getFileName(context, uri);
-            String[] splitName = splitFileName(fileName);
-            tempFile = File.createTempFile(splitName[0], splitName[1]);
-            tempFile = rename(tempFile, fileName);
-            tempFile.deleteOnExit();
             out = new FileOutputStream(tempFile);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (DataAbilityRemoteException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.getMessage());
         }
         if (inputStream != null) {
             copy(inputStream, out);
