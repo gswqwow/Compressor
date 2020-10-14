@@ -87,8 +87,8 @@ public final class Util {
         int orientation = 0;
         try {
             com.drew.metadata.Metadata metadata = ImageMetadataReader.readMetadata(imageFile);
-            Collection<ExifDirectoryBase> imageDirectories = metadata.getDirectoriesOfType(ExifDirectoryBase.class);
-            for(ExifDirectoryBase director : imageDirectories)
+            //Collection<ExifDirectoryBase> imageDirectories = metadata.getDirectoriesOfType(ExifDirectoryBase.class);
+            for(com.drew.metadata.Directory director : metadata.getDirectories())
             {
                 if (director.containsTag(ExifDirectoryBase.TAG_ORIENTATION))
                 {
