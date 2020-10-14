@@ -22,19 +22,13 @@ public class Intrinsics {
         }
     }
 
-
-
-//    @SinceKotlin(version = "1.4")
     public static void throwJavaNpe() {
         throw sanitizeStackTrace(new NullPointerException());
     }
 
-//    @SinceKotlin(version = "1.4")
     public static void throwJavaNpe(String message) {
         throw sanitizeStackTrace(new NullPointerException(message));
     }
-
-
 
     public static void throwAssert() {
         throw sanitizeStackTrace(new AssertionError());

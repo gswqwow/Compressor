@@ -8,7 +8,7 @@ import java.io.File;
 
 public final class Compressor {
 
-    public File compress(Context context, File imageFile){
+    public File compress(Context context, File imageFile) {
         Compression compression = new Compression();
         compression.compressionDefault();
         File result = Util.copyToCache(context, imageFile);

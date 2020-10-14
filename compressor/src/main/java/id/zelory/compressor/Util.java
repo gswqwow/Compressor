@@ -6,11 +6,9 @@ import com.drew.metadata.MetadataException;
 import com.drew.metadata.exif.ExifDirectoryBase;
 import id.zelory.compressor.constraint.CompressFormat;
 import id.zelory.compressor.extutil.Intrinsics;
-import ohos.agp.utils.Matrix;
 import ohos.app.Context;
 import ohos.media.image.ImagePacker;
 import ohos.media.image.ImageSource;
-import ohos.media.image.ImageSource.IncrementalSourceOptions;
 import ohos.media.image.PixelMap;
 import ohos.media.image.common.Size;
 
@@ -19,22 +17,21 @@ import java.nio.file.Files;
 import java.util.Collection;
 
 public final class Util {
-
     private static CompressFormat compressFormat;
 
-    private static final String cachePath(Context context) {
+    private static String cachePath(Context context) {
         StringBuilder path = new StringBuilder();
         File cacheDir = context.getCacheDir();
         Intrinsics.checkExpressionValueIsNotNull(cacheDir, "context.cacheDir");
         return path.append(cacheDir.getPath()).append(File.separator).append("compressor").append(File.separator).toString();
     }
 
-    public static final CompressFormat compressFormat() {
+    public static CompressFormat compressFormat() {
         Intrinsics.checkParameterIsNotNull(compressFormat, "Util.compressFormat");
         return compressFormat;
     }
 
-    public static final CompressFormat compressFormat(File imageFile) {
+    public static CompressFormat compressFormat(File imageFile) {
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
         String fileName = imageFile.getName();
         String extension = fileName.substring(fileName.indexOf(".") + 1);
@@ -47,7 +44,7 @@ public final class Util {
         return compressFormat;
     }
 
-    public static final PixelMap loadBitmap(File imageFile) {
+    public static PixelMap loadBitmap(File imageFile) {
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
         ImageSource imageSource = ImageSource.create(imageFile.getAbsolutePath(),null);
         ImageSource.DecodingOptions decodingOpts = new ImageSource.DecodingOptions();
@@ -57,7 +54,7 @@ public final class Util {
         return bitmap;
     }
 
-    public static final PixelMap decodeSampledBitmapFromFile(File imageFile, int reqWidth, int reqHeight) {
+    public static PixelMap decodeSampledBitmapFromFile(File imageFile, int reqWidth, int reqHeight) {
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
         ImageSource imageSource = ImageSource.create(imageFile.getAbsolutePath(),null);
         Size size = imageSource.getImageInfo().size;
@@ -70,7 +67,7 @@ public final class Util {
         return bitmap;
     }
 
-    public static final int calculateInSampleSize(Size size, int reqWidth, int reqHeight) {
+    public static int calculateInSampleSize(Size size, int reqWidth, int reqHeight) {
         Intrinsics.checkParameterIsNotNull(size, "size");
         int height = size.height;
         int width = size.width;
@@ -85,7 +82,7 @@ public final class Util {
         return inSampleSize;
     }
 
-    public static final float determineImageRotation(File imageFile){
+    public static float determineImageRotation(File imageFile){
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
         int orientation = 0;
         try {
@@ -100,8 +97,11 @@ public final class Util {
                 }
             }
         } catch (ImageProcessingException e) {
+            e.printStackTrace();
         } catch (MetadataException e) {
+            e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
         }
         float rotation = 0f;
         switch(orientation) {
@@ -119,32 +119,7 @@ public final class Util {
         return rotation;
     }
 
-//    public static final PixelMap determineImageRotation(File imageFile, PixelMap bitmap) {
-//        Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
-//        Intrinsics.checkParameterIsNotNull(bitmap, "bitmap");
-//
-//        Matrix matrix = new Matrix();
-//        switch(orientation) {
-//            case 3:
-//                matrix.postRotate(180.0F);
-//            case 4:
-//            case 5:
-//            case 7:
-//            default:
-//                break;
-//            case 6:
-//                matrix.postRotate(90.0F);
-//                break;
-//            case 8:
-//                matrix.postRotate(270.0F);
-//        }
-//
-//        PixelMap result = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-//        Intrinsics.checkExpressionValueIsNotNull(result, "Bitmap.createBitmap(bitm…map.height, matrix, true)");
-//        return result;
-//    }
-
-    public static final File copyToCache(Context context, File imageFile) {
+    public static File copyToCache(Context context, File imageFile) {
         Intrinsics.checkParameterIsNotNull(context, "context");
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
         File result = null;
@@ -157,7 +132,7 @@ public final class Util {
         return result;
     }
 
-    public static final File overWrite(File imageFile, PixelMap bitmap, CompressFormat format, int quality) {
+    public static File overWrite(File imageFile, PixelMap bitmap, CompressFormat format, int quality) {
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
         Intrinsics.checkParameterIsNotNull(bitmap, "bitmap");
         if(format == null){
@@ -194,7 +169,7 @@ public final class Util {
         return overWrite(file, bitmap, format, quality);
     }
 
-    public static final void saveBitmap(PixelMap bitmap, File destination, CompressFormat format, int quality) {
+    public static void saveBitmap(PixelMap bitmap, File destination, CompressFormat format, int quality) {
         Intrinsics.checkParameterIsNotNull(bitmap, "bitmap");
         Intrinsics.checkParameterIsNotNull(destination, "destination");
         if(format == null){
@@ -231,11 +206,9 @@ public final class Util {
 
         saveBitmap(bitmap, file, format, quality);
     }
-
 }
 
 final class WhenMappings {
-
     public static final int[] EnumSwitchMapping = new int[CompressFormat.values().length];
 
     static {
