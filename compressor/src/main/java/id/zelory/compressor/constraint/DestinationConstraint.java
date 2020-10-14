@@ -5,6 +5,8 @@ import id.zelory.compressor.extutil.Intrinsics;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created on : January 25, 2020
@@ -13,6 +15,7 @@ import java.nio.file.Files;
  * GitHub     : https://github.com/zetbaitsu
  */
 public class DestinationConstraint implements Constraint {
+    private static final Logger logger = Logger.getLogger(DestinationConstraint.class.getName());
     private final File destination;
 
     public DestinationConstraint(File destination) {
@@ -32,7 +35,7 @@ public class DestinationConstraint implements Constraint {
         try {
             result = Files.copy(imageFile.toPath(), this.destination.toPath()).toFile();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.getMessage());
             return null;
         }
         return result;

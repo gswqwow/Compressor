@@ -14,8 +14,11 @@ import ohos.media.image.common.Size;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public final class Util {
+    private static final Logger logger = Logger.getLogger(Util.class.getName());
     private static CompressFormat compressFormat;
 
     private static String cachePath(Context context) {
@@ -96,11 +99,11 @@ public final class Util {
                 }
             }
         } catch (ImageProcessingException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.getMessage());
         } catch (MetadataException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.getMessage());
         }
         float rotation = 0f;
         switch(orientation) {
@@ -126,7 +129,7 @@ public final class Util {
             result = Files.copy(imageFile.toPath(),
                     new File(cachePath(context) + imageFile.getName()).toPath()).toFile();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.getMessage());
         }
         return result;
     }
@@ -190,7 +193,7 @@ public final class Util {
             imagePacker.addImage(bitmap);
             imagePacker.finalizePacking();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.getMessage());
         }
     }
 
