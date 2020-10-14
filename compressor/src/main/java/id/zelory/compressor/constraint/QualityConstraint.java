@@ -26,12 +26,6 @@ public class QualityConstraint implements Constraint {
         return this.isResolved;
     }
 
-    /**
-     * TODO
-     * @param imageFile
-     * @return
-     */
-    @Override
     public File satisfy(File imageFile) {
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
         File result = Util.overWriteDefault(imageFile, Util.loadBitmap(imageFile), null, this.quality, 4, null);

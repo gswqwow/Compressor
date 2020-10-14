@@ -10,58 +10,43 @@ import java.util.List;
 
 public class Compression {
     public final List<Constraint> constraints;
-    int width = 612;
-    int height = 816;
-    int quality = 80;
-    CompressFormat format = CompressFormat.JPEG;
 
     public Compression() {
-        this.constraints  = new ArrayList<Constraint>();
+        this.constraints = new ArrayList<>();
     }
 
     public final List<Constraint> getConstraints() {
         return this.constraints;
     }
 
-    public final void constraint( Constraint constraint) {
-        Intrinsics.checkParameterIsNotNull(constraint,"constraint");
+    public final void constraint(Constraint constraint) {
+        Intrinsics.checkParameterIsNotNull(constraint, "constraint");
         this.constraints.add(constraint);
     }
 
-    /**
-     * TODO
-     */
-    public void compressionDefault( ) {
+    public void compressionDefault() {
         this.constraint(new DefaultConstraint());
     }
 
-    public void destination(File destination){
-        Intrinsics.checkParameterIsNotNull(destination,"destination");
+    public void destination(File destination) {
+        Intrinsics.checkParameterIsNotNull(destination, "destination");
         this.constraint(new DestinationConstraint(destination));
     }
 
-    /**
-     * TODO
-     * @param format
-     */
-    public void format(CompressFormat format){
+    public void format(CompressFormat format) {
         Intrinsics.checkParameterIsNotNull(format, "format");
         constraint(new FormatConstraint(format));
     }
-    public void quality(int quality){
+
+    public void quality(int quality) {
         constraint(new QualityConstraint(quality));
     }
-    public void resolution( int width, int height){
+
+    public void resolution(int width, int height) {
         constraint(new ResolutionConstraint(width, height));
     }
 
-    /**
-     * TODO
-     * @param maxFileSize
-     * @param stepSize
-     * @param maxIteration
-     */
-    public void size(long maxFileSize, int stepSize, int maxIteration){
+    public void size(long maxFileSize, int stepSize, int maxIteration) {
         stepSize = stepSize == 0 ? 10 : stepSize;
         maxIteration = maxIteration == 0 ? 10 : maxIteration;
         constraint(new SizeConstraint(maxFileSize));

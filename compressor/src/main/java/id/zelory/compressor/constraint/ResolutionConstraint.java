@@ -22,22 +22,12 @@ public class ResolutionConstraint implements Constraint {
         this.height = height;
      }
 
-    /**
-     * @param imageFile
-     * @return
-     */
-    @Override
     public boolean isSatisfied(File imageFile) {
         ImageSource imageSource = ImageSource.create(imageFile.getAbsolutePath(), null);
         Size size = imageSource.getImageInfo().size;
         return Util.calculateInSampleSize(size, width, height) <= 1;
     }
 
-    /**
-     * @param imageFile
-     * @return
-     */
-    @Override
     public File satisfy(File imageFile) {
         PixelMap bitmap = Util.decodeSampledBitmapFromFile(imageFile, width, height);
         return Util.overWrite(imageFile, bitmap, null, 0);

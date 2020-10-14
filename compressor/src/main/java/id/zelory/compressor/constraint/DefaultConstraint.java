@@ -14,11 +14,11 @@ import java.io.File;
  */
 public class DefaultConstraint implements Constraint{
 
-    public boolean isResolved = false;
-    private final int width = 612;
-    private final int height = 816;
-    private final CompressFormat format = CompressFormat.JPEG;
-    private final int quality = 80;
+    private boolean isResolved = false;
+    private static final int DEF_WIDTH = 612;
+    private static final int DEF_HEIGHT = 816;
+    private static final CompressFormat DEF_FORMAT = CompressFormat.JPEG;
+    private static final int DEF_QUALITY = 80;
 
 
     public DefaultConstraint() {
@@ -31,14 +31,10 @@ public class DefaultConstraint implements Constraint{
         return isResolved;
     }
 
-    /**
-     * @param imageFile
-     * @return
-     */
     @Override
     public File satisfy(File imageFile) {
-        PixelMap bitmap = Util.decodeSampledBitmapFromFile(imageFile, width, height);
-        File result = Util.overWrite(imageFile, bitmap, format, quality);
+        PixelMap bitmap = Util.decodeSampledBitmapFromFile(imageFile, DEF_WIDTH, DEF_HEIGHT);
+        File result = Util.overWrite(imageFile, bitmap, DEF_FORMAT, DEF_QUALITY);
         isResolved = true;
         return result;
     }

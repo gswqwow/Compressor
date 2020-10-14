@@ -26,18 +26,13 @@ public class DestinationConstraint implements Constraint {
         return Intrinsics.areEqual(imageFile.getAbsolutePath(), this.destination.getAbsolutePath());
     }
 
-    /**
-     * TODO 未完成
-     *
-     * @param imageFile
-     * @return
-     */
     public File satisfy(File imageFile) {
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
-        File result = null;
+        File result;
         try {
             result = Files.copy(imageFile.toPath(), this.destination.toPath()).toFile();
         } catch (IOException e) {
+            e.printStackTrace();
             return null;
         }
         return result;
