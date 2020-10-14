@@ -15,6 +15,6 @@ public final class CompressionTest {
         compression.constraint(mock);
 
         // Then
-        assertEquals(compression.constraints.size(), 2);
+        assertEquals(2, compression.constraints.size());
     }
 }
