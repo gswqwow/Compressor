@@ -9,8 +9,6 @@ import java.io.File;
  * GitHub     : https://github.com/zetbaitsu
  */
 public interface Constraint {
-
-    boolean isSatisfied( File var1);
-
-    File satisfy( File var1);
+    boolean isSatisfied(File file);
+    File satisfy(File file);
 }
