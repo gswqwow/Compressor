@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StackLayout
+    xmlns:ohos="http://schemas.huawei.com/res/ohos"
+    ohos:width="match_parent"
+    ohos:height="match_parent">
+    <Text
+            ohos:text="dkiejkdiekdie"
+            ohos:width="100"
+            ohos:height="20"
+            >
+
+    </Text>
+    <Button
+            ohos:id="$+id:chooseImageButton"
+            ohos:width="match_parent"
+            ohos:height="match_content"
+            ohos:top_margin="8"
+            ohos:text="Choose image"
+            ohos:text_size="50"/>
+    <Button
+            ohos:id="$+id:compressImageButton"
+            ohos:width="match_parent"
+            ohos:height="match_content"
+            ohos:top_margin="8"
+            ohos:text="Compress image"
+            ohos:text_size="50"/>
+    <Button
+            ohos:id="$+id:customCompressImageButton"
+            ohos:width="match_parent"
+            ohos:height="match_content"
+            ohos:top_margin="8"
+            ohos:text="Custom compress"
+            ohos:text_size="50"/>
+</StackLayout>
