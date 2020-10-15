@@ -1,34 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<StackLayout
+<DirectionalLayout
     xmlns:ohos="http://schemas.huawei.com/res/ohos"
     ohos:width="match_parent"
-    ohos:height="match_parent">
-    <Text
-            ohos:text="dkiejkdiekdie"
-            ohos:width="100"
-            ohos:height="20"
-            >
+    ohos:height="match_content"
+    ohos:margin="16">
 
-    </Text>
+    <DirectionalLayout
+            ohos:width="match_parent"
+            ohos:height="match_content"
+            ohos:orientation="horizontal">
+        <Image
+                ohos:id="$+id:actualImageView"
+                ohos:width="50"
+                ohos:height="500"/>
+
+        <Image
+                ohos:id="$+id:actualImageView"
+                ohos:width="50"
+                ohos:height="500"/>
+    </DirectionalLayout>
+
+    <DirectionalLayout
+            ohos:width="match_parent"
+            ohos:height="match_content"
+            ohos:top_margin="2dp"
+            ohos:orientation="horizontal"
+            >
+        <Text
+                ohos:id="$+id:actualSizeTextView"
+                ohos:width="match_content"
+                ohos:height="match_content"
+                ohos:bottom_margin="4dp"
+                ohos:right_margin="4dp"
+                ohos:text_alignment="center"
+                ohos:text="Actual Image"
+                ohos:text_size="50"/>
+        <Text
+                ohos:id="$+id:compressedSizeTextView"
+                ohos:width="match_content"
+                ohos:height="match_content"
+                ohos:bottom_margin="4dp"
+                ohos:right_margin="4dp"
+                ohos:text_alignment="center"
+                ohos:text="Compressed Image"
+                ohos:text_size="50"/>
+    </DirectionalLayout>
+
+    <DirectionalLayout
+            ohos:width="match_parent"
+            ohos:height="match_content"
+            ohos:top_margin="2dp"
+            ohos:orientation="horizontal"
+            >
+        <Text
+                ohos:id="$+id:actualSizeTextView"
+                ohos:width="match_content"
+                ohos:height="match_content"
+                ohos:bottom_margin="4dp"
+                ohos:right_margin="4dp"
+                ohos:text_alignment="center"
+                ohos:text="Size : -"
+                ohos:text_size="50"/>
+        <Text
+                ohos:id="$+id:compressedSizeTextView"
+                ohos:width="match_content"
+                ohos:height="match_content"
+                ohos:bottom_margin="4dp"
+                ohos:right_margin="4dp"
+                ohos:text_alignment="center"
+                ohos:text="Size : -"
+                ohos:text_size="50"/>
+    </DirectionalLayout>
     <Button
             ohos:id="$+id:chooseImageButton"
             ohos:width="match_parent"
             ohos:height="match_content"
-            ohos:top_margin="8"
+            ohos:top_margin="8dp"
+            ohos:background_element="$graphic:button_element"
             ohos:text="Choose image"
             ohos:text_size="50"/>
     <Button
             ohos:id="$+id:compressImageButton"
             ohos:width="match_parent"
             ohos:height="match_content"
-            ohos:top_margin="8"
+            ohos:top_margin="8vp"
+            ohos:background_element="$graphic:button_element"
             ohos:text="Compress image"
             ohos:text_size="50"/>
     <Button
             ohos:id="$+id:customCompressImageButton"
             ohos:width="match_parent"
             ohos:height="match_content"
-            ohos:top_margin="8"
+            ohos:top_margin="8vp"
+            ohos:background_element="$graphic:button_element"
             ohos:text="Custom compress"
             ohos:text_size="50"/>
-</StackLayout>
+</DirectionalLayout>
