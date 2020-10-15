@@ -17,10 +17,6 @@ import static org.mockito.Mockito.verify;
 
 public class DestinationConstraintTest {
 
-    @After
-    public void teardown(Object obj) {
-
-    }
 
     @Test
     public void when_destination_is_not_equal_with_image_file__constraint_should_not_satisfied(){
@@ -55,7 +51,7 @@ public class DestinationConstraintTest {
         Compression compression = new Compression();
         compression.destination(mock(File.class));
 
-        verify(compression.constraints).get(0).equals(mock(Constraint.class));
+        assertEquals(compression.constraints.get(0),mock(Constraint.class));
     }
 
 }
