@@ -4,6 +4,9 @@ import id.zelory.compressor.ResourceTable;
 import id.zelory.compressor.sample.slice.MainAbilitySlice;
 import ohos.aafwk.ability.Ability;
 import ohos.aafwk.content.Intent;
+import ohos.aafwk.content.Operation;
+import ohos.agp.components.Button;
+import ohos.agp.components.Component;
 import ohos.hiviewdfx.HiLog;
 import ohos.hiviewdfx.HiLogLabel;
 
@@ -19,21 +22,48 @@ public class MainAbility extends Ability {
         super.setUIContent(ResourceTable.Layout_Ability_main);
 //        actualImageView.setBackgroundColor(getRandomColor())
 //        clearImage();
-//        setupClickListener();
+        setupClickListener();
     }
 
-//    private void setupClickListener() {
-//        chooseImageButton.setOnClickListener { chooseImage() }
-//        compressImageButton.setOnClickListener { compressImage() }
-//        customCompressImageButton.setOnClickListener { customCompressImage() }
-//    }
-//
-//    private void chooseImage() {
-//        val intent = Intent(Intent.ACTION_GET_CONTENT)
-//        intent.type = "image/*"
-//        startActivityForResult(intent, PICK_IMAGE_REQUEST)
-//    }
-//
+    private void setupClickListener() {
+        Button chooseImageButton = (Button)findComponentById(ResourceTable.Id_chooseImageButton);
+        if(chooseImageButton != null){
+            chooseImageButton.setClickedListener(new Component.ClickedListener() {
+                @Override
+                public void onClick(Component component) {
+                    MainAbility.this.chooseImage();
+                }
+            });
+        }
+        Button compressImageButton = (Button)findComponentById(ResourceTable.Id_chooseImageButton);
+        if(compressImageButton != null){
+            compressImageButton.setClickedListener(new Component.ClickedListener() {
+                @Override
+                public void onClick(Component component) {
+//                    compressImage();
+                }
+            });
+        }
+        Button customCompressImageButton = (Button)findComponentById(ResourceTable.Id_chooseImageButton);
+        if(customCompressImageButton != null){
+            customCompressImageButton.setClickedListener(new Component.ClickedListener() {
+                @Override
+                public void onClick(Component component) {
+//                    customCompressImage();
+                }
+            });
+        }
+    }
+
+    private void chooseImage() {
+        Intent intent = new Intent();
+        Operation operation = new Intent.OperationBuilder()
+                .withAction(Intent.ENTITY_VIDEO)
+                .build();
+        intent.setOperation(operation);
+        startAbilityForResult(intent, 1);
+    }
+
 //    private void compressImage() {
 //        actualImage?.let { imageFile ->
 //                lifecycleScope.launch {
@@ -84,9 +114,14 @@ public class MainAbility extends Ability {
 //        compressedSizeTextView.text = "Size : -"
 //    }
 //
-//    @Override
-//    protected void onAbilityResult(int requestCode, int resultCode, Intent resultData) {
-//        super.onAbilityResult(requestCode, resultCode, resultData);
+    @Override
+    protected void onAbilityResult(int requestCode, int resultCode, Intent resultData) {
+        super.onAbilityResult(requestCode, resultCode, resultData);
+        if(requestCode == 1){
+            HiLog.warn(label, "resultCode : "+resultCode);
+            HiLog.warn(label, "resultData : "+resultData.toString());
+        }
+
 //        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
 //            if (data == null) {
 //                showError("Failed to open picture!")
@@ -103,7 +138,7 @@ public class MainAbility extends Ability {
 //                e.printStackTrace();
 //            }
 //        }
-//    }
+    }
 //
 //    private void showError(errorMessage: String) {
 //        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
