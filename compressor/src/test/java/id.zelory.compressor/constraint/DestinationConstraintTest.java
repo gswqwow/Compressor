@@ -8,8 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -35,7 +34,6 @@ public class DestinationConstraintTest {
      */
     @Test
     public void when_trying_satisfy_constraint__it_should_copy_image_to_destination() throws IOException {
-        Files files  = mock(Files.class);
         when(Files.copy(mock(Path.class), any(), any())).thenReturn(mock(Path.class));
         File imageFile = new File("source.jpg");
         File destination = new File("destination.jpg");
@@ -51,7 +49,9 @@ public class DestinationConstraintTest {
         Compression compression = new Compression();
         compression.destination(mock(File.class));
 
-        assertEquals(compression.constraints.get(0),mock(Constraint.class));
+        if(!(compression.constraints.get(0) instanceof  DestinationConstraint)){
+            fail("exp");
+        }
     }
 
 }
