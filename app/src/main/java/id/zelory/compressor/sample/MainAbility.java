@@ -1,20 +1,32 @@
 package id.zelory.compressor.sample;
 
+import id.zelory.compressor.Compressor;
 import id.zelory.compressor.ResourceTable;
 import id.zelory.compressor.sample.slice.MainAbilitySlice;
 import ohos.aafwk.ability.Ability;
+import ohos.aafwk.ability.DataAbilityHelper;
+import ohos.aafwk.ability.DataAbilityRemoteException;
 import ohos.aafwk.content.Intent;
 import ohos.aafwk.content.Operation;
 import ohos.agp.components.Button;
 import ohos.agp.components.Component;
+import ohos.agp.components.Image;
 import ohos.hiviewdfx.HiLog;
 import ohos.hiviewdfx.HiLogLabel;
+import ohos.media.image.ImageSource;
+import ohos.media.image.PixelMap;
+import ohos.utils.net.Uri;
 
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainAbility extends Ability {
 
     static final HiLogLabel label = new HiLogLabel(HiLog.LOG_APP, 0x0, "MY_TAG");
+    List<File> pngFileList = new ArrayList<File>();
+    File imageFile = null;
+    int index = 0;
 
     @Override
     public void onStart(Intent intent) {
@@ -28,43 +40,104 @@ public class MainAbility extends Ability {
     private void setupClickListener() {
         Button chooseImageButton = (Button)findComponentById(ResourceTable.Id_chooseImageButton);
         if(chooseImageButton != null){
-            chooseImageButton.setClickedListener(new Component.ClickedListener() {
-                @Override
-                public void onClick(Component component) {
-                    MainAbility.this.chooseImage();
+            chooseImageButton.setClickedListener(component -> {
+                try {
+                    chooseImage();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (DataAbilityRemoteException e) {
+                    e.printStackTrace();
                 }
             });
         }
-        Button compressImageButton = (Button)findComponentById(ResourceTable.Id_chooseImageButton);
+        Button compressImageButton = (Button)findComponentById(ResourceTable.Id_compressImageButton);
         if(compressImageButton != null){
-            compressImageButton.setClickedListener(new Component.ClickedListener() {
-                @Override
-                public void onClick(Component component) {
-//                    compressImage();
+            compressImageButton.setClickedListener(component -> {
+                try {
+                    compressImage();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (DataAbilityRemoteException e) {
+                    e.printStackTrace();
                 }
             });
         }
-        Button customCompressImageButton = (Button)findComponentById(ResourceTable.Id_chooseImageButton);
+        Button customCompressImageButton = (Button)findComponentById(ResourceTable.Id_customCompressImageButton);
         if(customCompressImageButton != null){
-            customCompressImageButton.setClickedListener(new Component.ClickedListener() {
-                @Override
-                public void onClick(Component component) {
-//                    customCompressImage();
-                }
-            });
+//            customCompressImageButton.setClickedListener(component -> customCompressImage());
         }
     }
 
-    private void chooseImage() {
-        Intent intent = new Intent();
-        Operation operation = new Intent.OperationBuilder()
-                .withAction(Intent.ENTITY_VIDEO)
-                .build();
-        intent.setOperation(operation);
-        startAbilityForResult(intent, 1);
+    private void chooseImage() throws FileNotFoundException, DataAbilityRemoteException {
+        HiLog.error(label,"Choose Image");
+        if(pngFileList.size() == 0){
+            File file = new File("/");
+            findPng(file);
+        }
+        if(index == pngFileList.size()){
+            index = 0;
+        }
+        imageFile = pngFileList.get(index++);
+        Image image = (Image)findComponentById(ResourceTable.Id_actualImageView);
+        ImageSource imageSource = ImageSource.create(imageFile,null);
+        PixelMap bitmap = imageSource.createPixelmap(null);
+        image.setPixelMap(bitmap);
+
+//        Intent intent = new Intent();
+//        Operation operation = new Intent.OperationBuilder()
+//                .withAction(Intent.ACTION_QUERY_WEATHER)
+//                .build();
+//        intent.setOperation(operation);
+//        startAbilityForResult(intent, 1);
     }
 
-//    private void compressImage() {
+    private void findPng(File file){
+        if(pngFileList.size() >= 10){
+            return;
+        }
+        if(file != null && file.list() != null && file.list().length > 0){
+            for(File subFile : file.listFiles()){
+                findPng(subFile);
+            }
+        }else if(file != null && file.getName() != null && !file.getName().equals("")){
+            if(file.getName().contains(".png")){
+                pngFileList.add(file);
+
+            }
+        }
+    }
+
+    private void compressImage() throws IOException, DataAbilityRemoteException {
+        HiLog.error(label,"Compress Image");
+        HiLog.error(label,"imageFile : "+ imageFile.getName());
+
+
+//        File file = new File("/proc/self/task/14731/cwd/proc/self/task/14731/cwd/proc/self/task/14731/cwd/proc/self/task/14731/cwd/proc/self/task/14731/cwd/etc/charger/1080x2220/full_charge.pngfull_charge.png");
+
+        //        Compressor compressor = new Compressor();
+//        File compressedImage = compressor.compress(getContext(), file);
+
+//        DataAbilityHelper helper = DataAbilityHelper.creator(this);
+//        Uri uri = Uri.parse("http://img.pconline.com.cn/images/upload/upc/tx/wallpaper/1307/10/c3/23153395_1373426315898.jpg");
+//        File imageFile = FileUtil.from(getContext(), uri);
+//        Image image = (Image)findComponentById(ResourceTable.Id_actualImageView);
+//        ImageSource imageSource = ImageSource.create(imageFile,null);
+//        PixelMap bitmap = imageSource.createPixelmap(null);
+//        image.setPixelMap(bitmap);
+
+//        Uri uri = Uri.parse("dataability://id.zelory.compressor.sample/base/media/sample.jpg");
+//
+//        File imageFile = FileUtil.from(getContext(), uri);
+//        HiLog.error(label,"Image File : " + imageFile.getAbsolutePath());
+        Compressor compressor = new Compressor();
+        HiLog.error(label,"11111111111111");
+        File compressedImage = compressor.compress(getContext(), imageFile);
+        HiLog.error(label,"222222222222222");
+        Image image = (Image)findComponentById(ResourceTable.Id_compressedImageView);
+        ImageSource imageSource = ImageSource.create(compressedImage,null);
+        PixelMap bitmap = imageSource.createPixelmap(null);
+        image.setPixelMap(bitmap);
+
 //        actualImage?.let { imageFile ->
 //                lifecycleScope.launch {
 //            // Default compression
@@ -72,7 +145,7 @@ public class MainAbility extends Ability {
 //            setCompressedImage()
 //        }
 //        } ?: showError("Please choose an image!")
-//    }
+    }
 //
 //    private void customCompressImage() {
 //        actualImage?.let { imageFile ->
@@ -117,6 +190,7 @@ public class MainAbility extends Ability {
     @Override
     protected void onAbilityResult(int requestCode, int resultCode, Intent resultData) {
         super.onAbilityResult(requestCode, resultCode, resultData);
+        HiLog.warn(label,"Result");
         if(requestCode == 1){
             HiLog.warn(label, "resultCode : "+resultCode);
             HiLog.warn(label, "resultData : "+resultData.toString());

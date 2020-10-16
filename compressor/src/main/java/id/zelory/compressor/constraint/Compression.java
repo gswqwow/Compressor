@@ -15,10 +15,6 @@ public class Compression {
         this.constraints = new ArrayList<>();
     }
 
-    public final List<Constraint> getConstraints() {
-        return this.constraints;
-    }
-
     public final void constraint(Constraint constraint) {
         Intrinsics.checkParameterIsNotNull(constraint, "constraint");
         this.constraints.add(constraint);

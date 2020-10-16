@@ -2,6 +2,8 @@ package id.zelory.compressor.constraint;
 
 import id.zelory.compressor.Util;
 import id.zelory.compressor.extutil.Intrinsics;
+import ohos.hiviewdfx.HiLog;
+import ohos.hiviewdfx.HiLogLabel;
 
 import java.io.File;
 
@@ -14,6 +16,7 @@ import java.io.File;
 class FormatConstraint implements Constraint {
 
     private final CompressFormat format;
+    static final HiLogLabel label = new HiLogLabel(HiLog.LOG_APP, 0x0, "MY_TAG");
 
     public FormatConstraint(CompressFormat format) {
         this.format = format;
@@ -21,6 +24,7 @@ class FormatConstraint implements Constraint {
 
     @Override
     public boolean isSatisfied(File imageFile) {
+        HiLog.error(label,"FormatConstraint-isSatisfied");
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
         return this.format == Util.compressFormat(imageFile);
     }

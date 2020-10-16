@@ -1,6 +1,8 @@
 package id.zelory.compressor.constraint;
 
 import id.zelory.compressor.Util;
+import ohos.hiviewdfx.HiLog;
+import ohos.hiviewdfx.HiLogLabel;
 
 import java.io.File;
 
@@ -16,6 +18,7 @@ public class SizeConstraint implements Constraint {
     private final static int STEP_SIZE = 10;
     private final static int MAX_ITERATION = 10;
     private final static int MIN_QUALITY = 10;
+    static final HiLogLabel label = new HiLogLabel(HiLog.LOG_APP, 0x0, "MY_TAG");
 
     public SizeConstraint(long maxFileSize) {
         this.maxFileSize = maxFileSize;
@@ -23,6 +26,7 @@ public class SizeConstraint implements Constraint {
 
     @Override
     public boolean isSatisfied(File imageFile) {
+        HiLog.error(label,"SizeConstraint-isSatisfied");
         return imageFile.length() <= maxFileSize || iteration >= MAX_ITERATION;
     }
 

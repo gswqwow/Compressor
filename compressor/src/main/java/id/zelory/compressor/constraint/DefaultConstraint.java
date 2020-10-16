@@ -2,6 +2,8 @@ package id.zelory.compressor.constraint;
 
 import id.zelory.compressor.Util;
 import id.zelory.compressor.extutil.Intrinsics;
+import ohos.hiviewdfx.HiLog;
+import ohos.hiviewdfx.HiLogLabel;
 import ohos.media.image.PixelMap;
 
 import java.io.File;
@@ -20,12 +22,15 @@ public class DefaultConstraint implements Constraint {
     private static final CompressFormat DEF_FORMAT = CompressFormat.JPEG;
     private static final int DEF_QUALITY = 80;
 
+    static final HiLogLabel label = new HiLogLabel(HiLog.LOG_APP, 0x0, "MY_TAG");
+
     public DefaultConstraint() {
 
     }
 
     @Override
     public boolean isSatisfied(File imageFile) {
+        HiLog.error(label,"DefaultConstraint-isSatisfied");
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
         return isResolved;
     }

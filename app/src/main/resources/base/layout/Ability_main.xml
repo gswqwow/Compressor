@@ -11,12 +11,12 @@
             ohos:orientation="horizontal">
         <Image
                 ohos:id="$+id:actualImageView"
-                ohos:width="50"
+                ohos:width="200"
                 ohos:height="500"/>
 
         <Image
-                ohos:id="$+id:actualImageView"
-                ohos:width="50"
+                ohos:id="$+id:compressedImageView"
+                ohos:width="200"
                 ohos:height="500"/>
     </DirectionalLayout>
 
@@ -75,10 +75,11 @@
             ohos:id="$+id:chooseImageButton"
             ohos:width="match_parent"
             ohos:height="match_content"
-            ohos:top_margin="8dp"
+            ohos:top_margin="8"
             ohos:background_element="$graphic:button_element"
             ohos:text="Choose image"
-            ohos:text_size="50"/>
+            ohos:text_size="50"
+            ohos:clickable="true"/>
     <Button
             ohos:id="$+id:compressImageButton"
             ohos:width="match_parent"

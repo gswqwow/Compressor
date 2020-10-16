@@ -7,6 +7,8 @@ import com.drew.metadata.exif.ExifDirectoryBase;
 import id.zelory.compressor.constraint.CompressFormat;
 import id.zelory.compressor.extutil.Intrinsics;
 import ohos.app.Context;
+import ohos.hiviewdfx.HiLog;
+import ohos.hiviewdfx.HiLogLabel;
 import ohos.media.image.ImagePacker;
 import ohos.media.image.ImageSource;
 import ohos.media.image.PixelMap;
@@ -19,6 +21,7 @@ import java.util.logging.Logger;
 
 public final class Util {
     private static final Logger logger = Logger.getLogger(Util.class.getName());
+    static final HiLogLabel label = new HiLogLabel(HiLog.LOG_APP, 0x0, "MY_TAG");
     private static CompressFormat compressFormat;
 
     private static String cachePath(Context context) {
@@ -122,12 +125,15 @@ public final class Util {
     }
 
     public static File copyToCache(Context context, File imageFile) {
+        HiLog.error(label,"copyToCache");
         Intrinsics.checkParameterIsNotNull(context, "context");
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
         File result = null;
         try {
+            HiLog.error(label,"imageFile : "+imageFile.getName());
             result = Files.copy(imageFile.toPath(),
                     new File(cachePath(context) + imageFile.getName()).toPath()).toFile();
+            HiLog.error(label,"result : "+result.getName());
         } catch (IOException e) {
             logger.log(Level.SEVERE, e.getMessage());
         }
