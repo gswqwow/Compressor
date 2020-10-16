@@ -1,23 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DirectionalLayout
-    xmlns:ohos="http://schemas.huawei.com/res/ohos"
-    ohos:width="match_parent"
-    ohos:height="match_content"
-    ohos:margin="16">
+        xmlns:ohos="http://schemas.huawei.com/res/ohos"
+        ohos:width="match_parent"
+        ohos:height="match_parent"
+        ohos:top_padding="30"
+        ohos:bottom_padding="30"
+        ohos:left_padding="300"
+        ohos:right_padding="300"
+        ohos:background_element="$graphic:body_element"
+        >
 
     <DirectionalLayout
-            ohos:width="match_parent"
+            ohos:width="match_content"
             ohos:height="match_content"
-            ohos:orientation="horizontal">
-        <Image
-                ohos:id="$+id:actualImageView"
-                ohos:width="200"
-                ohos:height="500"/>
+            ohos:orientation="horizontal"
+            >
 
-        <Image
-                ohos:id="$+id:compressedImageView"
-                ohos:width="200"
-                ohos:height="500"/>
+        <DirectionalLayout
+                ohos:width="660"
+                ohos:height="match_content"
+                ohos:orientation="vertical"
+                ohos:background_element="$graphic:image_left_element"
+                >
+
+            <Image
+                    ohos:id="$+id:actualImageView"
+                    ohos:width="50"
+                    ohos:height="500"
+                    />
+        </DirectionalLayout>
+
+        <DirectionalLayout
+                ohos:width="660"
+                ohos:height="match_content"
+                ohos:orientation="vertical"
+                ohos:background_element="$graphic:image_right_element"
+                >
+
+            <Image
+                    ohos:id="$+id:actualImageView"
+                    ohos:width="50"
+                    ohos:height="500"/>
+        </DirectionalLayout>
     </DirectionalLayout>
 
     <DirectionalLayout
@@ -26,60 +50,74 @@
             ohos:top_margin="2dp"
             ohos:orientation="horizontal"
             >
-        <Text
-                ohos:id="$+id:actualSizeTextView"
-                ohos:width="match_content"
-                ohos:height="match_content"
-                ohos:bottom_margin="4dp"
-                ohos:right_margin="4dp"
-                ohos:text_alignment="center"
-                ohos:text="Actual Image"
-                ohos:text_size="50"/>
-        <Text
-                ohos:id="$+id:compressedSizeTextView"
-                ohos:width="match_content"
-                ohos:height="match_content"
-                ohos:bottom_margin="4dp"
-                ohos:right_margin="4dp"
-                ohos:text_alignment="center"
-                ohos:text="Compressed Image"
-                ohos:text_size="50"/>
+
+        <DirectionalLayout
+                ohos:alignment="center"
+                ohos:width="660"
+                ohos:height="match_parent"
+                ohos:orientation="vertical"
+                >
+
+            <Text
+                    ohos:id="$+id:actualSizeTextView"
+                    ohos:width="match_content"
+                    ohos:height="match_content"
+                    ohos:bottom_margin="4dp"
+                    ohos:right_margin="4dp"
+                    ohos:text_alignment="center"
+                    ohos:text="Actual Image"
+                    ohos:text_size="50"/>
+
+            <Text
+                    ohos:id="$+id:actualSizeTextView"
+                    ohos:width="match_content"
+                    ohos:height="match_content"
+                    ohos:bottom_margin="4dp"
+                    ohos:right_margin="4dp"
+                    ohos:text_alignment="center"
+                    ohos:text="Size : -"
+                    ohos:text_size="50"/>
+        </DirectionalLayout>
+
+        <DirectionalLayout
+                ohos:alignment="center"
+                ohos:width="660"
+                ohos:height="match_parent"
+                ohos:orientation="vertical"
+                >
+
+            <Text
+                    ohos:id="$+id:compressedSizeTextView"
+                    ohos:width="match_content"
+                    ohos:height="match_content"
+                    ohos:bottom_margin="4dp"
+                    ohos:right_margin="4dp"
+                    ohos:text_alignment="center"
+                    ohos:text="Compressed Image"
+                    ohos:text_size="50"/>
+
+            <Text
+                    ohos:id="$+id:compressedSizeTextView"
+                    ohos:width="match_content"
+                    ohos:height="match_content"
+                    ohos:bottom_margin="4dp"
+                    ohos:right_margin="4dp"
+                    ohos:text_alignment="center"
+                    ohos:text="Size : -"
+                    ohos:text_size="50"/>
+        </DirectionalLayout>
+
     </DirectionalLayout>
 
-    <DirectionalLayout
-            ohos:width="match_parent"
-            ohos:height="match_content"
-            ohos:top_margin="2dp"
-            ohos:orientation="horizontal"
-            >
-        <Text
-                ohos:id="$+id:actualSizeTextView"
-                ohos:width="match_content"
-                ohos:height="match_content"
-                ohos:bottom_margin="4dp"
-                ohos:right_margin="4dp"
-                ohos:text_alignment="center"
-                ohos:text="Size : -"
-                ohos:text_size="50"/>
-        <Text
-                ohos:id="$+id:compressedSizeTextView"
-                ohos:width="match_content"
-                ohos:height="match_content"
-                ohos:bottom_margin="4dp"
-                ohos:right_margin="4dp"
-                ohos:text_alignment="center"
-                ohos:text="Size : -"
-                ohos:text_size="50"/>
-    </DirectionalLayout>
     <Button
             ohos:id="$+id:chooseImageButton"
             ohos:width="match_parent"
             ohos:height="match_content"
-            ohos:top_margin="8"
+            ohos:top_margin="8dp"
             ohos:background_element="$graphic:button_element"
             ohos:text="Choose image"
-            ohos:text_size="50"
-            ohos:clickable="true"/>
+            ohos:text_size="50"/>
+
     <Button
             ohos:id="$+id:compressImageButton"
             ohos:width="match_parent"
@@ -88,6 +126,7 @@
             ohos:background_element="$graphic:button_element"
             ohos:text="Compress image"
             ohos:text_size="50"/>
+
     <Button
             ohos:id="$+id:customCompressImageButton"
             ohos:width="match_parent"
