@@ -38,7 +38,7 @@
                 >
 
             <Image
-                    ohos:id="$+id:actualImageView"
+                    ohos:id="$+id:compressedImageView"
                     ohos:width="50"
                     ohos:height="500"/>
         </DirectionalLayout>
