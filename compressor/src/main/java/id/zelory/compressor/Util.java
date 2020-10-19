@@ -25,8 +25,10 @@ public final class Util {
     private static CompressFormat compressFormat;
 
     private static String cachePath(Context context) {
+        HiLog.error(label,"cachePath");
         StringBuilder path = new StringBuilder();
         File cacheDir = context.getCacheDir();
+        HiLog.error(label,"cacheDir : "+cacheDir.getPath());
         Intrinsics.checkExpressionValueIsNotNull(cacheDir, "context.cacheDir");
         return path.append(cacheDir.getPath()).append(File.separator).append("compressor").append(File.separator).toString();
     }
@@ -128,14 +130,14 @@ public final class Util {
         HiLog.error(label,"copyToCache");
         Intrinsics.checkParameterIsNotNull(context, "context");
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
-        File result = null;
+        File result = new File(cachePath(context) + imageFile.getName());
         try {
-            HiLog.error(label,"imageFile : "+imageFile.getName());
-            result = Files.copy(imageFile.toPath(),
-                    new File(cachePath(context) + imageFile.getName()).toPath()).toFile();
+            HiLog.error(label,"imageFile : "+imageFile.getPath());
+            copyFile(imageFile, result);
             HiLog.error(label,"result : "+result.getName());
-        } catch (IOException e) {
+        } catch (Exception e) {
             logger.log(Level.SEVERE, e.getMessage());
+            HiLog.error(label,"Exception : "+e.getMessage());
         }
         return result;
     }
@@ -213,6 +215,25 @@ public final class Util {
         }
 
         saveBitmap(bitmap, file, format, quality);
+    }
+
+    public static void copyFile(File source, File dest)
+            throws Exception {
+        InputStream input = null;
+        OutputStream output = null;
+        try {
+            input = new FileInputStream(source);
+            output = new FileOutputStream(dest);
+            HiLog.error(label,"constraint" );
+            byte[] buf = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = input.read(buf)) > 0) {
+                output.write(buf, 0, bytesRead);
+            }
+        } finally {
+            input.close();
+            output.close();
+        }
     }
 }
 

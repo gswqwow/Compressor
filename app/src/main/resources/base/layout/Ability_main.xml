@@ -25,7 +25,7 @@
 
             <Image
                     ohos:id="$+id:actualImageView"
-                    ohos:width="50"
+                    ohos:width="match_content"
                     ohos:height="500"
                     />
         </DirectionalLayout>
@@ -39,7 +39,7 @@
 
             <Image
                     ohos:id="$+id:compressedImageView"
-                    ohos:width="50"
+                    ohos:width="match_parent"
                     ohos:height="500"/>
         </DirectionalLayout>
     </DirectionalLayout>

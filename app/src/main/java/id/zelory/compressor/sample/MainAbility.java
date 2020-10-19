@@ -130,9 +130,7 @@ public class MainAbility extends Ability {
 //        File imageFile = FileUtil.from(getContext(), uri);
 //        HiLog.error(label,"Image File : " + imageFile.getAbsolutePath());
         Compressor compressor = new Compressor();
-        HiLog.error(label,"11111111111111");
         File compressedImage = compressor.compress(getContext(), imageFile);
-        HiLog.error(label,"222222222222222");
         Image image = (Image)findComponentById(ResourceTable.Id_compressedImageView);
         ImageSource imageSource = ImageSource.create(compressedImage,null);
         PixelMap bitmap = imageSource.createPixelmap(null);

@@ -15,11 +15,8 @@ public final class Compressor {
     public File compress(Context context, File imageFile) {
         HiLog.error(label,"compress");
         Compression compression = new Compression();
-        HiLog.error(label,"Compression");
         compression.compressionDefault();
-        HiLog.error(label,"CompressionDefault");
         File result = Util.copyToCache(context, imageFile);
-        HiLog.error(label,"constraints" + compression.constraints.size());
         HiLog.error(label,"result" + result.getName());
         for (Constraint constraint : compression.constraints) {
             while (!constraint.isSatisfied(result)) {
