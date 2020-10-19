@@ -70,8 +70,8 @@ public final class Util {
         ImageSource.DecodingOptions decodingOpts = new ImageSource.DecodingOptions();
         decodingOpts.sampleSize = calculateInSampleSize(size, reqWidth, reqHeight);
         HiLog.error(label,"decodingOpts.sampleSize: "+decodingOpts.sampleSize);
-//        decodingOpts.rotateDegrees = determineImageRotation(imageFile);
-        decodingOpts.rotateDegrees = 0;
+        decodingOpts.rotateDegrees = determineImageRotation(imageFile);
+        //decodingOpts.rotateDegrees = 0;
         PixelMap bitmap = imageSource.createPixelmap(decodingOpts);
         Intrinsics.checkExpressionValueIsNotNull(bitmap, "BitmapFactory.decodeFile…eFile.absolutePath, this)");
         Intrinsics.checkExpressionValueIsNotNull(bitmap, "BitmapFactory.Options().…absolutePath, this)\n    }");
@@ -95,22 +95,22 @@ public final class Util {
     }
 
     public static float determineImageRotation(File imageFile){
-        HiLog.error(label,"imageFile"+imageFile);
+        HiLog.error(label,"determineImageRotation imageFile "+imageFile);
         int orientation = 0;
         try {
             Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
             HiLog.error(label,"1111111111111");
             com.drew.metadata.Metadata metadata = ImageMetadataReader.readMetadata(imageFile);
             HiLog.error(label,"22222222222222");
-            //Collection<ExifDirectoryBase> imageDirectories = metadata.getDirectoriesOfType(ExifDirectoryBase.class);
-            for(com.drew.metadata.Directory director : metadata.getDirectories())
-            {
-                HiLog.error(label,"for");
-                if (director.containsTag(ExifDirectoryBase.TAG_ORIENTATION))
-                {
-                    HiLog.error(label,"if");
-                    orientation = director.getInt(ExifDirectoryBase.TAG_ORIENTATION);
-                    break;
+            if (metadata != null) {
+                //Collection<ExifDirectoryBase> imageDirectories = metadata.getDirectoriesOfType(ExifDirectoryBase.class);
+                for (com.drew.metadata.Directory director : metadata.getDirectories()) {
+                    HiLog.error(label, "for");
+                    if (director.containsTag(ExifDirectoryBase.TAG_ORIENTATION)) {
+                        HiLog.error(label, "if");
+                        orientation = director.getInt(ExifDirectoryBase.TAG_ORIENTATION);
+                        break;
+                    }
                 }
             }
         } catch (ImageProcessingException e) {
