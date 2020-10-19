@@ -62,12 +62,16 @@ public final class Util {
     }
 
     public static PixelMap decodeSampledBitmapFromFile(File imageFile, int reqWidth, int reqHeight) {
+        HiLog.error(label,"decodeSampledBitmapFromFile");
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
         ImageSource imageSource = ImageSource.create(imageFile.getAbsolutePath(),null);
         Size size = imageSource.getImageInfo().size;
+        HiLog.error(label,"Size: "+size.width);
         ImageSource.DecodingOptions decodingOpts = new ImageSource.DecodingOptions();
         decodingOpts.sampleSize = calculateInSampleSize(size, reqWidth, reqHeight);
-        decodingOpts.rotateDegrees = determineImageRotation(imageFile);
+        HiLog.error(label,"decodingOpts.sampleSize: "+decodingOpts.sampleSize);
+//        decodingOpts.rotateDegrees = determineImageRotation(imageFile);
+        decodingOpts.rotateDegrees = 0;
         PixelMap bitmap = imageSource.createPixelmap(decodingOpts);
         Intrinsics.checkExpressionValueIsNotNull(bitmap, "BitmapFactory.decodeFile…eFile.absolutePath, this)");
         Intrinsics.checkExpressionValueIsNotNull(bitmap, "BitmapFactory.Options().…absolutePath, this)\n    }");
@@ -75,6 +79,7 @@ public final class Util {
     }
 
     public static int calculateInSampleSize(Size size, int reqWidth, int reqHeight) {
+        HiLog.error(label,"calculateInSampleSize");
         Intrinsics.checkParameterIsNotNull(size, "size");
         int height = size.height;
         int width = size.width;
@@ -85,29 +90,37 @@ public final class Util {
             for(int halfWidth = width / 2; halfHeight / inSampleSize >= reqHeight && halfWidth / inSampleSize >= reqWidth; inSampleSize *= 2) {
             }
         }
-
+        HiLog.error(label,"inSampleSize:"+inSampleSize);
         return inSampleSize;
     }
 
     public static float determineImageRotation(File imageFile){
-        Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
+        HiLog.error(label,"imageFile"+imageFile);
         int orientation = 0;
         try {
+            Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
+            HiLog.error(label,"1111111111111");
             com.drew.metadata.Metadata metadata = ImageMetadataReader.readMetadata(imageFile);
+            HiLog.error(label,"22222222222222");
             //Collection<ExifDirectoryBase> imageDirectories = metadata.getDirectoriesOfType(ExifDirectoryBase.class);
             for(com.drew.metadata.Directory director : metadata.getDirectories())
             {
+                HiLog.error(label,"for");
                 if (director.containsTag(ExifDirectoryBase.TAG_ORIENTATION))
                 {
+                    HiLog.error(label,"if");
                     orientation = director.getInt(ExifDirectoryBase.TAG_ORIENTATION);
                     break;
                 }
             }
         } catch (ImageProcessingException e) {
+            HiLog.error(label,"Exception: "+e.getMessage());
             logger.log(Level.SEVERE, e.getMessage());
         } catch (MetadataException e) {
+            HiLog.error(label,"Exception: "+e.getMessage());
             logger.log(Level.SEVERE, e.getMessage());
-        } catch (IOException e) {
+        } catch (Exception e) {
+            HiLog.error(label,"Exception: "+e.getMessage());
             logger.log(Level.SEVERE, e.getMessage());
         }
         float rotation = 0f;
@@ -123,6 +136,7 @@ public final class Util {
             case 8:
                 rotation = 270f;
         }
+        HiLog.error(label,"rotation: "+rotation);
         return rotation;
     }
 
@@ -130,11 +144,11 @@ public final class Util {
         HiLog.error(label,"copyToCache");
         Intrinsics.checkParameterIsNotNull(context, "context");
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
+        File path = new File(cachePath(context));
+        path.mkdirs();
         File result = new File(cachePath(context) + imageFile.getName());
         try {
-            HiLog.error(label,"imageFile : "+imageFile.getPath());
             copyFile(imageFile, result);
-            HiLog.error(label,"result : "+result.getName());
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.getMessage());
             HiLog.error(label,"Exception : "+e.getMessage());
@@ -143,6 +157,7 @@ public final class Util {
     }
 
     public static File overWrite(File imageFile, PixelMap bitmap, CompressFormat format, int quality) {
+        HiLog.error(label,"overWrite");
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
         Intrinsics.checkParameterIsNotNull(bitmap, "bitmap");
         if(format == null){
@@ -219,20 +234,15 @@ public final class Util {
 
     public static void copyFile(File source, File dest)
             throws Exception {
-        InputStream input = null;
-        OutputStream output = null;
-        try {
-            input = new FileInputStream(source);
-            output = new FileOutputStream(dest);
-            HiLog.error(label,"constraint" );
+        try(
+                FileInputStream input = new FileInputStream(source);
+                FileOutputStream output = new FileOutputStream(dest);
+                ) {
             byte[] buf = new byte[1024];
             int bytesRead;
             while ((bytesRead = input.read(buf)) > 0) {
                 output.write(buf, 0, bytesRead);
             }
-        } finally {
-            input.close();
-            output.close();
         }
     }
 }

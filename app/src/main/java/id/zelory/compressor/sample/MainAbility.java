@@ -11,6 +11,7 @@ import ohos.aafwk.content.Operation;
 import ohos.agp.components.Button;
 import ohos.agp.components.Component;
 import ohos.agp.components.Image;
+import ohos.agp.components.Text;
 import ohos.hiviewdfx.HiLog;
 import ohos.hiviewdfx.HiLogLabel;
 import ohos.media.image.ImageSource;
@@ -78,10 +79,13 @@ public class MainAbility extends Ability {
             index = 0;
         }
         imageFile = pngFileList.get(index++);
+        HiLog.error(label,"imageFile："+imageFile.getPath());
         Image image = (Image)findComponentById(ResourceTable.Id_actualImageView);
         ImageSource imageSource = ImageSource.create(imageFile,null);
         PixelMap bitmap = imageSource.createPixelmap(null);
         image.setPixelMap(bitmap);
+        Text actualSize = (Text)findComponentById(ResourceTable.Id_actualSizeTextView);
+        actualSize.setText(imageFile.length()+"");
 
 //        Intent intent = new Intent();
 //        Operation operation = new Intent.OperationBuilder()
@@ -109,7 +113,6 @@ public class MainAbility extends Ability {
 
     private void compressImage() throws IOException, DataAbilityRemoteException {
         HiLog.error(label,"Compress Image");
-        HiLog.error(label,"imageFile : "+ imageFile.getName());
 
 
 //        File file = new File("/proc/self/task/14731/cwd/proc/self/task/14731/cwd/proc/self/task/14731/cwd/proc/self/task/14731/cwd/proc/self/task/14731/cwd/etc/charger/1080x2220/full_charge.pngfull_charge.png");
@@ -131,10 +134,13 @@ public class MainAbility extends Ability {
 //        HiLog.error(label,"Image File : " + imageFile.getAbsolutePath());
         Compressor compressor = new Compressor();
         File compressedImage = compressor.compress(getContext(), imageFile);
+        HiLog.error(label,"Compress Image result : "+compressedImage.getPath());
         Image image = (Image)findComponentById(ResourceTable.Id_compressedImageView);
         ImageSource imageSource = ImageSource.create(compressedImage,null);
         PixelMap bitmap = imageSource.createPixelmap(null);
         image.setPixelMap(bitmap);
+        Text compressedSize = (Text)findComponentById(ResourceTable.Id_compressedSizeTextView);
+        compressedSize.setText(compressedImage.length()+"");
 
 //        actualImage?.let { imageFile ->
 //                lifecycleScope.launch {

@@ -37,6 +37,7 @@ public class DefaultConstraint implements Constraint {
 
     @Override
     public File satisfy(File imageFile) {
+        HiLog.error(label,"DefaultConstraint-satisfy");
         PixelMap bitmap = Util.decodeSampledBitmapFromFile(imageFile, DEF_WIDTH, DEF_HEIGHT);
         File result = Util.overWrite(imageFile, bitmap, DEF_FORMAT, DEF_QUALITY);
         isResolved = true;
