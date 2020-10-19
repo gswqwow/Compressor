@@ -59,7 +59,7 @@
                 >
 
             <Text
-                    ohos:id="$+id:actualSizeTextView"
+                    ohos:id="$+id:actualTextView"
                     ohos:width="match_content"
                     ohos:height="match_content"
                     ohos:bottom_margin="4dp"
@@ -87,7 +87,7 @@
                 >
 
             <Text
-                    ohos:id="$+id:compressedSizeTextView"
+                    ohos:id="$+id:compressedTextView"
                     ohos:width="match_content"
                     ohos:height="match_content"
                     ohos:bottom_margin="4dp"
