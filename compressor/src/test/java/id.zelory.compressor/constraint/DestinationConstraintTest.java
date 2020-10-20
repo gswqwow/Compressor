@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.temporal.TemporalAmount;
+
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -19,12 +21,16 @@ public class DestinationConstraintTest {
 
     @Test
     public void when_destination_is_not_equal_with_image_file__constraint_should_not_satisfied(){
+        DestinationConstraint constraint = new DestinationConstraint(new File("a_file.webp"));
+        assertEquals(constraint.isSatisfied(new File("another_file.png")),false);
 //        DestinationConstraint constraint = new DestinationConstraint(new File("a_file.webp"));
 //        assertEquals(constraint.isSatisfied(new File("another_file.png")),false);
     }
 
     @Test
     public void when_destination_is_equal_with_image_file__constraint_should_satisfied(){
+        DestinationConstraint constraint = new DestinationConstraint(new File("a_file.jpg"));
+        assertEquals(constraint.isSatisfied(new File("a_file.jpg")),true);
 //        DestinationConstraint constraint = new DestinationConstraint(new File("a_file.jpg"));
 //        assertEquals(constraint.isSatisfied(new File("a_file.jpg")),true);
     }
@@ -34,11 +40,14 @@ public class DestinationConstraintTest {
      */
     @Test
     public void when_trying_satisfy_constraint__it_should_copy_image_to_destination() throws IOException {
-//        when(Files.copy(mock(Path.class), any(), any())).thenReturn(mock(Path.class));
-//        File imageFile = new File("source.jpg");
-//        File destination = new File("destination.jpg");
+
+//        File imageFile = mock(File.class);
+//        File destination = mock(File.class);
 //        DestinationConstraint constraint = new DestinationConstraint(destination);
+//        imageFile.toPath();
 //
+//        Files mock = mock(Files.class);
+//        when(mock.copy(imageFile.toPath(), destination.toPath(), any())).thenReturn(mock(Path.class));
 //        constraint.satisfy(imageFile);
 //        verify(Files.copy(imageFile.toPath(), destination.toPath(),any()));
     }
