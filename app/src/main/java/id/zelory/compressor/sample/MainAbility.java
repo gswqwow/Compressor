@@ -78,10 +78,6 @@ public class MainAbility extends Ability {
                 };
                 HiLog.error(label, "post");
                 eventHandler.postTask(task);
-
-                ToastDialog toast = new ToastDialog(getContext());
-                toast.setContentText("111111111");
-                toast.show();
             });
         }
         Button customCompressImageButton = (Button)findComponentById(ResourceTable.Id_customCompressImageButton);
@@ -96,10 +92,6 @@ public class MainAbility extends Ability {
                     }
                 };
                 eventHandler.postTask(task);
-
-                ToastDialog toast = new ToastDialog(getContext());
-                toast.setContentText("2222222");
-                toast.show();
             });
         }
     }
@@ -186,12 +178,16 @@ public class MainAbility extends Ability {
     private void setCompressedImage(File compressedImage) {
         HiLog.error(label,"setCompressedImage: "+compressedImage.getPath());
         Image image = (Image)findComponentById(ResourceTable.Id_compressedImageView);
+        image.setScaleMode(ScaleMode.INSIDE);
         ImageSource imageSource = ImageSource.create(compressedImage,null);
         PixelMap bitmap = imageSource.createPixelmap(null);
         image.setPixelMap(bitmap);
         Text compressedSize = (Text)findComponentById(ResourceTable.Id_compressedSizeTextView);
         compressedSize.setText("Size : " + getReadableFileSize(compressedImage.length()));
 
+        ToastDialog toast = new ToastDialog(getContext());
+        toast.setContentText("Compressed image save in " + compressedImage.getPath());
+        toast.show();
     }
 
     private void clearImage() {
