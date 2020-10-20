@@ -10,10 +10,7 @@ import java.io.File;
 
 public final class Compressor {
 
-    static final HiLogLabel label = new HiLogLabel(HiLog.LOG_APP, 0x0, "MY_TAG");
-
     public File compress(Context context, File imageFile, Compression compression) {
-        HiLog.error(label,"compress");
         if(compression == null){
             compression = new Compression();
             compression.compressionDefault();

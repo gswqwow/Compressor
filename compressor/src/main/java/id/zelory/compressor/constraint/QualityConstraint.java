@@ -17,7 +17,6 @@ public class QualityConstraint implements Constraint {
     private boolean isResolved = false;
 
     private final int quality;
-    static final HiLogLabel label = new HiLogLabel(HiLog.LOG_APP, 0x0, "MY_TAG");
 
     public QualityConstraint(int quality) {
         this.quality = quality;
@@ -30,7 +29,6 @@ public class QualityConstraint implements Constraint {
     }
 
     public File satisfy(File imageFile) {
-        HiLog.error(label,"QualityConstraint-isSatisfied");
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
         File result = Util.overWriteDefault(imageFile, Util.loadBitmap(imageFile), null, this.quality, 4, null);
         this.isResolved = true;
