@@ -36,8 +36,5 @@ public class UtilTest {
 
         Util.saveBitmap(bitmap,destination,CompressFormat.JPEG,10);
 
-
-
-
-    }
+   }
 }

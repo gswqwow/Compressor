@@ -15,9 +15,11 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.io.File;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Util.class,ImageSource.class,ImageSource.SourceOptions.class})
@@ -33,26 +35,21 @@ public class DefaultConstraintTest {
     @Test
     public void when_satisfy_function_is_invoked_constraint_should_satisfied() {
         Constraint constraint = new DefaultConstraint();
-//        Util util = mock(Util.class);
         PowerMockito.mockStatic(Util.class);
-//        PowerMockito.mockStatic(ImageSource.SourceOptions.class);
-//        PowerMockito.mockStatic(ImageSource.class);
-//        ImageSource imageSource = mock(ImageSource.class);
-//        mock(imageSource.SourceOptions.class);
-//        when(imageSource.create(anyString(), any())).thenReturn(imageSource);
 
-//        ImageInfo imageInfo = mock(ImageInfo.class);
-//        when(imageSource.getImageInfo()).thenReturn(imageInfo);
-
-//        File file = mock(File.class);
-//        PixelMap pixelMap = mock(PixelMap.class);
-//        when(Util.decodeSampledBitmapFromFile(file,anyInt(),anyInt())).thenReturn(pixelMap);
-
-//        when(constraint.satisfy(mock(File.class))).thenReturn(mock(File.class));
-//        Util.decodeSampledBitmapFromFile(any(),any(),any());
-
-        PowerMockito.when(Util.decodeSampledBitmapFromFile(any(),any(),any())).thenReturn(mock(PixelMap.class));
-        when(Util.overWrite(any(),any(),any(),any())).thenReturn(mock(File.class));
+        when(Util.decodeSampledBitmapFromFile(mock(File.class),180,180))
+                .thenReturn(mock(PixelMap.class));
+        when(Util.overWrite(mock(File.class),mock(PixelMap.class),CompressFormat.JPEG,10)).thenReturn(mock(File.class));
+        constraint.satisfy(mock(File.class));
         assertEquals(true, constraint.isSatisfied(mock(File.class)));
+    }
+
+    @Test
+    public  void compressionDefaultTest(){
+        Compression compression = new Compression();
+        compression.compressionDefault();
+        if(!(compression.constraints.get(0) instanceof DefaultConstraint)){
+            fail("DefaultConstraint");
+        }
     }
 }
