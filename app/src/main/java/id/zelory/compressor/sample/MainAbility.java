@@ -10,6 +10,7 @@ import ohos.aafwk.content.Intent;
 import ohos.agp.colors.RgbColor;
 import ohos.agp.components.Button;
 import ohos.agp.components.Image;
+import ohos.agp.components.Image.ScaleMode;
 import ohos.agp.components.Text;
 import ohos.agp.components.element.ShapeElement;
 import ohos.eventhandler.EventHandler;
@@ -43,6 +44,8 @@ public class MainAbility extends Ability {
         super.setUIContent(ResourceTable.Layout_Ability_main);
 //        setBackgroundColor();
 //        clearImage();
+        Image image = (Image)findComponentById(ResourceTable.Id_actualImageView);
+        image.setScaleMode(ScaleMode.INSIDE);
         setupClickListener();
     }
 

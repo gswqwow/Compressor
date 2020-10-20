@@ -38,7 +38,7 @@ public final class Util {
     public static CompressFormat compressFormat(File imageFile) {
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
         String fileName = imageFile.getName();
-        String extension = fileName.substring(fileName.indexOf(".") + 1);
+        String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
         if("png".equals(extension))
             compressFormat = CompressFormat.PNG;
         else if("webp".equals(extension))
@@ -65,6 +65,7 @@ public final class Util {
         ImageSource.DecodingOptions decodingOpts = new ImageSource.DecodingOptions();
         decodingOpts.sampleSize = calculateInSampleSize(size, reqWidth, reqHeight);
         decodingOpts.rotateDegrees = determineImageRotation(imageFile);
+        decodingOpts.desiredSize = new Size(reqWidth, reqHeight);
         //decodingOpts.rotateDegrees = 0;
         PixelMap bitmap = imageSource.createPixelmap(decodingOpts);
         Intrinsics.checkExpressionValueIsNotNull(bitmap, "BitmapFactory.decodeFile…eFile.absolutePath, this)");
