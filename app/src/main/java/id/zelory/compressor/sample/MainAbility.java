@@ -12,6 +12,11 @@ import ohos.agp.components.Button;
 import ohos.agp.components.Image;
 import ohos.agp.components.Text;
 import ohos.agp.components.element.ShapeElement;
+import ohos.agp.utils.Color;
+import ohos.agp.window.dialog.ToastDialog;
+import ohos.event.notification.NotificationHelper;
+import ohos.event.notification.NotificationRequest;
+import ohos.event.notification.NotificationSlot;
 import ohos.eventhandler.EventHandler;
 import ohos.eventhandler.EventRunner;
 import ohos.eventhandler.InnerEvent;
@@ -19,6 +24,7 @@ import ohos.hiviewdfx.HiLog;
 import ohos.hiviewdfx.HiLogLabel;
 import ohos.media.image.ImageSource;
 import ohos.media.image.PixelMap;
+import ohos.rpc.RemoteException;
 
 import java.io.*;
 import java.text.DecimalFormat;
@@ -39,6 +45,7 @@ public class MainAbility extends Ability {
 
     @Override
     public void onStart(Intent intent) {
+        HiLog.info(label, "onStart");
         super.onStart(intent);
         super.setUIContent(ResourceTable.Layout_Ability_main);
 //        setBackgroundColor();
@@ -47,22 +54,31 @@ public class MainAbility extends Ability {
     }
 
     private void setupClickListener() {
+        HiLog.warn(label, "setupClickListener");
         Button chooseImageButton = (Button)findComponentById(ResourceTable.Id_chooseImageButton);
         if(chooseImageButton != null){
             chooseImageButton.setClickedListener(component -> chooseImage());
         }
         Button compressImageButton = (Button)findComponentById(ResourceTable.Id_compressImageButton);
         if(compressImageButton != null){
+            HiLog.error(label, "bind compress");
             compressImageButton.setClickedListener(component -> {
+                HiLog.error(label, "click");
                 Runnable task = new Runnable() {
                     @Override
                     public void run() {
-                        File result = compressImage();
+                        HiLog.error(label, "run compress");
+                        File result = compressImage(imageFile);
                         InnerEvent event = InnerEvent.get(1, 0, result);
                         eventHandler.sendEvent(event);
                     }
                 };
+                HiLog.error(label, "post");
                 eventHandler.postTask(task);
+
+                ToastDialog toast = new ToastDialog(getContext());
+                toast.setContentText("111111111");
+                toast.show();
             });
         }
         Button customCompressImageButton = (Button)findComponentById(ResourceTable.Id_customCompressImageButton);
@@ -71,12 +87,16 @@ public class MainAbility extends Ability {
                 Runnable task = new Runnable() {
                     @Override
                     public void run() {
-                        File result = customCompressImage();
+                        File result = customCompressImage(imageFile);
                         InnerEvent event = InnerEvent.get(1, 0, result);
                         eventHandler.sendEvent(event);
                     }
                 };
                 eventHandler.postTask(task);
+
+                ToastDialog toast = new ToastDialog(getContext());
+                toast.setContentText("2222222");
+                toast.show();
             });
         }
     }
@@ -143,24 +163,25 @@ public class MainAbility extends Ability {
         }
     }
 
-    private File compressImage() {
-        HiLog.debug(label,"compressImage");
+    private File compressImage(File file) {
+        HiLog.error(label,"compressImage");
         Compressor compressor = new Compressor();
-        return compressor.compress(getContext(), imageFile, null);
+        return compressor.compress(getContext(), file, null);
     }
 
-    private File customCompressImage() {
-        HiLog.debug(label,"customCompressImage");
+    private File customCompressImage(File file) {
+        HiLog.error(label,"customCompressImage");
         Compressor compressor = new Compressor();
         Compression compression = new Compression();
         compression.resolution(1280, 720);
         compression.quality(80);
         compression.format(CompressFormat.WEBP);
         compression.size(2048, 0, 0);
-        return compressor.compress(getContext(), imageFile, compression);
+        return compressor.compress(getContext(), file, compression);
     }
 
     private void setCompressedImage(File compressedImage) {
+        HiLog.error(label,"setCompressedImage: "+compressedImage.getPath());
         Image image = (Image)findComponentById(ResourceTable.Id_compressedImageView);
         ImageSource imageSource = ImageSource.create(compressedImage,null);
         PixelMap bitmap = imageSource.createPixelmap(null);
@@ -219,6 +240,7 @@ public class MainAbility extends Ability {
 
         @Override
         protected void processEvent(InnerEvent event) {
+            HiLog.error(label, "processEvent");
             super.processEvent(event);
             switch(event.eventId){
                 case 1:
