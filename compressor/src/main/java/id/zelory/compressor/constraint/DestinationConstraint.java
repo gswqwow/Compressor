@@ -19,7 +19,6 @@ import java.util.logging.Logger;
 public class DestinationConstraint implements Constraint {
     private static final Logger logger = Logger.getLogger(DestinationConstraint.class.getName());
     private final File destination;
-    static final HiLogLabel label = new HiLogLabel(HiLog.LOG_APP, 0x0, "MY_TAG");
 
     public DestinationConstraint(File destination) {
         super();
@@ -28,7 +27,6 @@ public class DestinationConstraint implements Constraint {
     }
 
     public boolean isSatisfied(File imageFile) {
-        HiLog.error(label,"DestinationConstraint-isSatisfied");
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
         return Intrinsics.areEqual(imageFile.getAbsolutePath(), this.destination.getAbsolutePath());
     }
