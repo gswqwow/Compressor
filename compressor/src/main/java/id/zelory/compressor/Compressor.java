@@ -12,10 +12,12 @@ public final class Compressor {
 
     static final HiLogLabel label = new HiLogLabel(HiLog.LOG_APP, 0x0, "MY_TAG");
 
-    public File compress(Context context, File imageFile) {
+    public File compress(Context context, File imageFile, Compression compression) {
         HiLog.error(label,"compress");
-        Compression compression = new Compression();
-        compression.compressionDefault();
+        if(compression == null){
+            compression = new Compression();
+            compression.compressionDefault();
+        }
         File result = Util.copyToCache(context, imageFile);
         for (Constraint constraint : compression.constraints) {
             while (!constraint.isSatisfied(result)) {

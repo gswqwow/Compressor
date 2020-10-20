@@ -2,29 +2,31 @@ package id.zelory.compressor.sample;
 
 import id.zelory.compressor.Compressor;
 import id.zelory.compressor.ResourceTable;
-import id.zelory.compressor.sample.slice.MainAbilitySlice;
+import id.zelory.compressor.constraint.CompressFormat;
+import id.zelory.compressor.constraint.Compression;
+
 import ohos.aafwk.ability.Ability;
-import ohos.aafwk.ability.DataAbilityHelper;
-import ohos.aafwk.ability.DataAbilityRemoteException;
 import ohos.aafwk.content.Intent;
-import ohos.aafwk.content.Operation;
+import ohos.agp.colors.RgbColor;
 import ohos.agp.components.Button;
-import ohos.agp.components.Component;
 import ohos.agp.components.Image;
 import ohos.agp.components.Text;
+import ohos.agp.components.element.ShapeElement;
 import ohos.hiviewdfx.HiLog;
 import ohos.hiviewdfx.HiLogLabel;
 import ohos.media.image.ImageSource;
 import ohos.media.image.PixelMap;
-import ohos.utils.net.Uri;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
+import static java.lang.Math.log10;
 
 public class MainAbility extends Ability {
 
-    static final HiLogLabel label = new HiLogLabel(HiLog.LOG_APP, 0x0, "MY_TAG");
+    static final HiLogLabel label = new HiLogLabel(HiLog.LOG_APP, 0x0, "DEBUG");
     List<File> pngFileList = new ArrayList<File>();
     File imageFile = null;
     int index = 0;
@@ -33,44 +35,28 @@ public class MainAbility extends Ability {
     public void onStart(Intent intent) {
         super.onStart(intent);
         super.setUIContent(ResourceTable.Layout_Ability_main);
-//        actualImageView.setBackgroundColor(getRandomColor())
-//        clearImage();
+//        setBackgroundColor();
+        clearImage();
         setupClickListener();
     }
 
     private void setupClickListener() {
         Button chooseImageButton = (Button)findComponentById(ResourceTable.Id_chooseImageButton);
         if(chooseImageButton != null){
-            chooseImageButton.setClickedListener(component -> {
-                try {
-                    chooseImage();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (DataAbilityRemoteException e) {
-                    e.printStackTrace();
-                }
-            });
+            chooseImageButton.setClickedListener(component -> chooseImage());
         }
         Button compressImageButton = (Button)findComponentById(ResourceTable.Id_compressImageButton);
         if(compressImageButton != null){
-            compressImageButton.setClickedListener(component -> {
-                try {
-                    compressImage();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (DataAbilityRemoteException e) {
-                    e.printStackTrace();
-                }
-            });
+            compressImageButton.setClickedListener(component -> compressImage());
         }
         Button customCompressImageButton = (Button)findComponentById(ResourceTable.Id_customCompressImageButton);
         if(customCompressImageButton != null){
-//            customCompressImageButton.setClickedListener(component -> customCompressImage());
+            customCompressImageButton.setClickedListener(component -> customCompressImage());
         }
     }
 
-    private void chooseImage() throws FileNotFoundException, DataAbilityRemoteException {
-        HiLog.error(label,"Choose Image");
+    private void chooseImage() {
+        HiLog.debug(label,"chooseImage");
         if(pngFileList.size() == 0){
             File file = new File("/");
             findPng(file);
@@ -79,14 +65,12 @@ public class MainAbility extends Ability {
             index = 0;
         }
         imageFile = pngFileList.get(index++);
-        HiLog.error(label,"imageFile："+imageFile.getPath());
         Image image = (Image)findComponentById(ResourceTable.Id_actualImageView);
         ImageSource imageSource = ImageSource.create(imageFile,null);
         PixelMap bitmap = imageSource.createPixelmap(null);
         image.setPixelMap(bitmap);
         Text actualSize = (Text)findComponentById(ResourceTable.Id_actualSizeTextView);
-        actualSize.setText(imageFile.length()+"");
-
+        actualSize.setText("Size : " + imageFile.length());
 //        Intent intent = new Intent();
 //        Operation operation = new Intent.OperationBuilder()
 //                .withAction(Intent.ACTION_QUERY_WEATHER)
@@ -95,111 +79,10 @@ public class MainAbility extends Ability {
 //        startAbilityForResult(intent, 1);
     }
 
-    private void findPng(File file){
-        if(pngFileList.size() >= 10){
-            return;
-        }
-        if(file != null && file.list() != null && file.list().length > 0){
-            for(File subFile : file.listFiles()){
-                findPng(subFile);
-            }
-        }else if(file != null && file.getName() != null && !file.getName().equals("")){
-            if(file.getName().contains(".png")){
-                pngFileList.add(file);
-
-            }
-        }
-    }
-
-    private void compressImage() throws IOException, DataAbilityRemoteException {
-        HiLog.error(label,"Compress Image");
-
-
-//        File file = new File("/proc/self/task/14731/cwd/proc/self/task/14731/cwd/proc/self/task/14731/cwd/proc/self/task/14731/cwd/proc/self/task/14731/cwd/etc/charger/1080x2220/full_charge.pngfull_charge.png");
-
-        //        Compressor compressor = new Compressor();
-//        File compressedImage = compressor.compress(getContext(), file);
-
-//        DataAbilityHelper helper = DataAbilityHelper.creator(this);
-//        Uri uri = Uri.parse("http://img.pconline.com.cn/images/upload/upc/tx/wallpaper/1307/10/c3/23153395_1373426315898.jpg");
-//        File imageFile = FileUtil.from(getContext(), uri);
-//        Image image = (Image)findComponentById(ResourceTable.Id_actualImageView);
-//        ImageSource imageSource = ImageSource.create(imageFile,null);
-//        PixelMap bitmap = imageSource.createPixelmap(null);
-//        image.setPixelMap(bitmap);
-
-//        Uri uri = Uri.parse("dataability://id.zelory.compressor.sample/base/media/sample.jpg");
-//
-//        File imageFile = FileUtil.from(getContext(), uri);
-//        HiLog.error(label,"Image File : " + imageFile.getAbsolutePath());
-        Compressor compressor = new Compressor();
-        File compressedImage = compressor.compress(getContext(), imageFile);
-        HiLog.error(label,"Compress Image result : "+compressedImage.getPath());
-        Image image = (Image)findComponentById(ResourceTable.Id_compressedImageView);
-        ImageSource imageSource = ImageSource.create(compressedImage,null);
-        PixelMap bitmap = imageSource.createPixelmap(null);
-        image.setPixelMap(bitmap);
-        Text compressedSize = (Text)findComponentById(ResourceTable.Id_compressedSizeTextView);
-        compressedSize.setText(compressedImage.length()+"");
-
-//        actualImage?.let { imageFile ->
-//                lifecycleScope.launch {
-//            // Default compression
-//            compressedImage = Compressor.compress(this@MainActivity, imageFile)
-//            setCompressedImage()
-//        }
-//        } ?: showError("Please choose an image!")
-    }
-//
-//    private void customCompressImage() {
-//        actualImage?.let { imageFile ->
-//                lifecycleScope.launch {
-//            // Default compression with custom destination file
-//                /*compressedImage = Compressor.compress(this@MainActivity, imageFile) {
-//                    default()
-//                    getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.also {
-//                        val file = File("${it.absolutePath}${File.separator}my_image.${imageFile.extension}")
-//                        destination(file)
-//                    }
-//                }*/
-//
-//            // Full custom
-//            compressedImage = Compressor.compress(this@MainActivity, imageFile) {
-//                resolution(1280, 720)
-//                quality(80)
-//                format(Bitmap.CompressFormat.WEBP)
-//                size(2_097_152) // 2 MB
-//            }
-//            setCompressedImage()
-//        }
-//        } ?: showError("Please choose an image!")
-//    }
-//
-//    private void setCompressedImage() {
-//        compressedImage?.let {
-//            compressedImageView.setImageBitmap(BitmapFactory.decodeFile(it.absolutePath))
-//            compressedSizeTextView.text = String.format("Size : %s", getReadableFileSize(it.length()))
-//            Toast.makeText(this, "Compressed image save in " + it.path, Toast.LENGTH_LONG).show()
-//            Log.d("Compressor", "Compressed image save in " + it.path)
-//        }
-//    }
-//
-//    private void clearImage() {
-//        actualImageView.setBackgroundColor(getRandomColor())
-//        compressedImageView.setImageDrawable(null)
-//        compressedImageView.setBackgroundColor(getRandomColor())
-//        compressedSizeTextView.text = "Size : -"
-//    }
-//
     @Override
     protected void onAbilityResult(int requestCode, int resultCode, Intent resultData) {
+        HiLog.debug(label,"onAbilityResult");
         super.onAbilityResult(requestCode, resultCode, resultData);
-        HiLog.warn(label,"Result");
-        if(requestCode == 1){
-            HiLog.warn(label, "resultCode : "+resultCode);
-            HiLog.warn(label, "resultData : "+resultData.toString());
-        }
-
 //        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
 //            if (data == null) {
 //                showError("Failed to open picture!")
@@ -217,21 +100,87 @@ public class MainAbility extends Ability {
 //            }
 //        }
     }
-//
-//    private void showError(errorMessage: String) {
+
+    private void findPng(File file) {
+        if(pngFileList.size() >= 10){
+            return;
+        }
+        if(file != null && file.list() != null && file.list().length > 0){
+            for(File subFile : file.listFiles()){
+                findPng(subFile);
+            }
+        }else if(file != null && file.getName() != null && !file.getName().equals("")){
+            if(file.getName().contains(".png")){
+                pngFileList.add(file);
+            }
+        }
+    }
+
+    private void compressImage() {
+        HiLog.debug(label,"compressImage");
+        Compressor compressor = new Compressor();
+        File compressedImage = compressor.compress(getContext(), imageFile, null);
+        setCompressedImage(compressedImage);
+    }
+
+    private void customCompressImage() {
+        HiLog.debug(label,"customCompressImage");
+        Compressor compressor = new Compressor();
+        Compression compression = new Compression();
+        compression.resolution(1280, 720);
+        compression.quality(80);
+        compression.format(CompressFormat.WEBP);
+        compression.size(2048, 0, 0);
+        File compressedImage = compressor.compress(getContext(), imageFile, compression);
+        setCompressedImage(compressedImage);
+    }
+
+    private void setCompressedImage(File compressedImage) {
+        Image image = (Image)findComponentById(ResourceTable.Id_compressedImageView);
+        ImageSource imageSource = ImageSource.create(compressedImage,null);
+        PixelMap bitmap = imageSource.createPixelmap(null);
+        image.setPixelMap(bitmap);
+        Text compressedSize = (Text)findComponentById(ResourceTable.Id_compressedSizeTextView);
+        compressedSize.setText("Size : " + compressedImage.length());
+
+    }
+
+    private void clearImage() {
+        Image actualImage = (Image)findComponentById(ResourceTable.Id_compressedImageView);
+        actualImage.setPixelMap(null);
+        Image compressedImage = (Image)findComponentById(ResourceTable.Id_compressedImageView);
+        compressedImage.setPixelMap(null);
+        Text actualSizeText = (Text)findComponentById(ResourceTable.Id_actualSizeTextView);
+        actualSizeText.setText("Size : -");
+        Text compressedSizeText = (Text)findComponentById(ResourceTable.Id_compressedSizeTextView);
+        compressedSizeText.setText("Size : -");
+    }
+
+//    private void setBackgroundColor(){
+//        Image actualImage = (Image)findComponentById(ResourceTable.Id_actualImageView);
+//        ShapeElement actualBackground = (ShapeElement)actualImage.getBackgroundElement();
+//        actualBackground.setRgbColor(getRandomColor());
+//        Image compressedImage = (Image)findComponentById(ResourceTable.Id_actualImageView);
+//        ShapeElement compressedBackground = (ShapeElement)compressedImage.getBackgroundElement();
+//        compressedBackground.setRgbColor(getRandomColor());
+//    }
+
+//    private void showError(String errorMessage) {
 //        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
 //    }
-//
-//    private void getRandomColor() = Random().run {
-//        Color.argb(100, nextInt(256), nextInt(256), nextInt(256))
-//    }
-//
-//    private void getReadableFileSize(size: Long): String {
+
+    private RgbColor getRandomColor() {
+        Random r = new Random();
+        return new RgbColor(r.nextInt(256), r.nextInt(256), r.nextInt(256), 100);
+    }
+
+//    private String getReadableFileSize(Long size) {
 //        if (size <= 0) {
-//            return "0"
+//            return "0";
 //        }
-//        val units = arrayOf("B", "KB", "MB", "GB", "TB")
-//        val digitGroups = (log10(size.toDouble()) / log10(1024.0)).toInt()
+//        String[] units = {"B", "KB", "MB", "GB", "TB"};
+//        double digitGroups = (log10(size.doubleValue()) / log10(1024.0));
+//
 //        return DecimalFormat("#,##0.#").format(size / 1024.0.pow(digitGroups.toDouble())) + " " + units[digitGroups]
 //    }
 }
