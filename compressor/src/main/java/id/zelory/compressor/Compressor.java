@@ -13,7 +13,7 @@ public final class Compressor {
     public File compress(Context context, File imageFile, Compression compression) {
         if(compression == null){
             compression = new Compression();
-            compression.compressionDefault();
+            compression.compressionDefault(imageFile);
         }
         File result = Util.copyToCache(context, imageFile);
         for (Constraint constraint : compression.constraints) {

@@ -2,6 +2,8 @@ package id.zelory.compressor.constraint;
 
 
 import id.zelory.compressor.extutil.Intrinsics;
+import ohos.media.image.ImageSource;
+import ohos.media.image.common.Size;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -21,7 +23,13 @@ public class Compression {
     }
 
     public void compressionDefault() {
-        this.constraint(new DefaultConstraint());
+        this.constraint(new DefaultConstraint(null, null,null,null));
+    }
+
+    public void compressionDefault(File imageFile) {
+        ImageSource imageSource = ImageSource.create(imageFile, null);
+        Size size = imageSource.getImageInfo().size;
+        this.constraint(new DefaultConstraint(size.width, size.height,null,null));
     }
 
     public void destination(File destination) {

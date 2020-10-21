@@ -27,6 +27,7 @@ import ohos.hiviewdfx.HiLogLabel;
 import ohos.media.image.ImageSource;
 import ohos.media.image.PixelMap;
 import ohos.media.image.common.PixelFormat;
+import ohos.media.image.common.Size;
 import ohos.rpc.RemoteException;
 
 import java.io.*;
@@ -53,7 +54,7 @@ public class MainAbility extends Ability {
         setBackgroundColor();
         clearImage();
         Image image = (Image)findComponentById(ResourceTable.Id_actualImageView);
-        image.setScaleMode(ScaleMode.ZOOM_CENTER);
+        image.setScaleMode(ScaleMode.INSIDE);
         setupClickListener();
     }
 
@@ -167,9 +168,11 @@ public class MainAbility extends Ability {
     }
 
     private File customCompressImage(File file) {
+        ImageSource imageSource = ImageSource.create(file, null);
+        Size size = imageSource.getImageInfo().size;
         Compressor compressor = new Compressor();
         Compression compression = new Compression();
-        compression.resolution(1280, 720);
+        compression.resolution(size.width, size.height);
         compression.quality(80);
         compression.format(CompressFormat.WEBP);
         compression.size(2048, 0, 0);
@@ -178,7 +181,7 @@ public class MainAbility extends Ability {
 
     private void setCompressedImage(File compressedImage) {
         Image image = (Image)findComponentById(ResourceTable.Id_compressedImageView);
-        image.setScaleMode(ScaleMode.ZOOM_CENTER);
+        image.setScaleMode(ScaleMode.INSIDE);
         ImageSource imageSource = ImageSource.create(compressedImage,null);
         PixelMap bitmap = imageSource.createPixelmap(null);
         image.setPixelMap(bitmap);
