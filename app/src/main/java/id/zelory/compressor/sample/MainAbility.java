@@ -2,6 +2,7 @@ package id.zelory.compressor.sample;
 
 import id.zelory.compressor.Compressor;
 import id.zelory.compressor.ResourceTable;
+import id.zelory.compressor.Util;
 import id.zelory.compressor.constraint.CompressFormat;
 import id.zelory.compressor.constraint.Compression;
 
@@ -52,7 +53,7 @@ public class MainAbility extends Ability {
         setBackgroundColor();
         clearImage();
         Image image = (Image)findComponentById(ResourceTable.Id_actualImageView);
-        image.setScaleMode(ScaleMode.INSIDE);
+        image.setScaleMode(ScaleMode.ZOOM_CENTER);
         setupClickListener();
     }
 
@@ -111,8 +112,7 @@ public class MainAbility extends Ability {
         imageFile = pngFileList.get(index++);
         Image image = (Image)findComponentById(ResourceTable.Id_actualImageView);
         ImageSource imageSource = ImageSource.create(imageFile,null);
-        PixelMap bitmap = imageSource.createPixelmap(null);
-        image.setPixelMap(bitmap);
+        image.setPixelMap(Util.loadBitmap(imageFile));
         Text actualSize = (Text)findComponentById(ResourceTable.Id_actualSizeTextView);
         actualSize.setText("Size : " + getReadableFileSize(imageFile.length()));
 //        Intent intent = new Intent();
@@ -178,7 +178,7 @@ public class MainAbility extends Ability {
 
     private void setCompressedImage(File compressedImage) {
         Image image = (Image)findComponentById(ResourceTable.Id_compressedImageView);
-        image.setScaleMode(ScaleMode.INSIDE);
+        image.setScaleMode(ScaleMode.ZOOM_CENTER);
         ImageSource imageSource = ImageSource.create(compressedImage,null);
         PixelMap bitmap = imageSource.createPixelmap(null);
         image.setPixelMap(bitmap);

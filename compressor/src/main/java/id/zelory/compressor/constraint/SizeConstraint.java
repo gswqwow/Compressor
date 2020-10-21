@@ -15,22 +15,25 @@ import java.io.File;
 public class SizeConstraint implements Constraint {
     private int iteration = 0;
     private long maxFileSize;
-    private final static int STEP_SIZE = 10;
-    private final static int MAX_ITERATION = 10;
-    private final static int MIN_QUALITY = 10;
+    private int stepSize;
+    private int maxIteration;
+    private int minQuality;
 
-    public SizeConstraint(long maxFileSize) {
+    public SizeConstraint(long maxFileSize, Integer stepSize, Integer maxIteration, Integer minQuality) {
         this.maxFileSize = maxFileSize;
+        this.stepSize = stepSize == null ? 10 : stepSize;
+        this.maxIteration = maxIteration == null ? 10 : maxIteration;
+        this.minQuality = minQuality == null ? 10 : minQuality;
     }
 
     @Override
     public boolean isSatisfied(File imageFile) {
-        return imageFile.length() <= maxFileSize || iteration >= MAX_ITERATION;
+        return imageFile.length() <= maxFileSize || iteration >= maxIteration;
     }
 
     public File satisfy(File imageFile) {
         iteration++;
-        int quality = (100 - iteration * STEP_SIZE) >= MIN_QUALITY ? (100 - iteration * STEP_SIZE) : MIN_QUALITY;
+        int quality = (100 - iteration * stepSize) >= minQuality ? (100 - iteration * stepSize) : minQuality;
         return Util.overWrite(imageFile, Util.loadBitmap(imageFile), null, quality);
     }
 }

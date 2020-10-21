@@ -45,6 +45,6 @@ public class Compression {
     public void size(long maxFileSize, int stepSize, int maxIteration) {
         stepSize = stepSize == 0 ? 10 : stepSize;
         maxIteration = maxIteration == 0 ? 10 : maxIteration;
-        constraint(new SizeConstraint(maxFileSize));
+        constraint(new SizeConstraint(maxFileSize, null, null, null));
     }
 }
