@@ -51,11 +51,13 @@ public final class Util {
     public static PixelMap loadBitmap(File imageFile) {
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
         ImageSource imageSource = ImageSource.create(imageFile.getAbsolutePath(),null);
+        PixelMap bitmap = imageSource.createPixelmap(null);
         ImageSource.DecodingOptions decodingOpts = new ImageSource.DecodingOptions();
         decodingOpts.rotateDegrees = determineImageRotation(imageFile);
-        PixelMap bitmap = imageSource.createPixelmap(decodingOpts);
-        Intrinsics.checkExpressionValueIsNotNull(bitmap, "bitmap");
-        return bitmap;
+        decodingOpts.desiredSize = bitmap.getImageInfo().size;
+        PixelMap result = imageSource.createPixelmap(decodingOpts);
+        Intrinsics.checkExpressionValueIsNotNull(result, "result");
+        return result;
     }
 
     public static PixelMap decodeSampledBitmapFromFile(File imageFile, int reqWidth, int reqHeight) {

@@ -17,13 +17,16 @@ import java.io.File;
 public class DefaultConstraint implements Constraint {
 
     private boolean isResolved = false;
-    private static final int DEF_WIDTH = 612;
-    private static final int DEF_HEIGHT = 816;
-    private static final CompressFormat DEF_FORMAT = CompressFormat.JPEG;
-    private static final int DEF_QUALITY = 80;
+    private int width;
+    private int height;
+    private CompressFormat format;
+    private int quality;
 
-    public DefaultConstraint() {
-
+    public DefaultConstraint(Integer width, Integer height, CompressFormat format, Integer quality) {
+        this.width = width == null ? 612 : width;
+        this.height = height == null ? 816 : height;
+        this.format = format == null ? CompressFormat.JPEG : format;
+        this.quality = quality == null ? 80 : quality;
     }
 
     @Override
@@ -34,8 +37,8 @@ public class DefaultConstraint implements Constraint {
 
     @Override
     public File satisfy(File imageFile) {
-        PixelMap bitmap = Util.decodeSampledBitmapFromFile(imageFile, DEF_WIDTH, DEF_HEIGHT);
-        File result = Util.overWrite(imageFile, bitmap, DEF_FORMAT, DEF_QUALITY);
+        PixelMap bitmap = Util.decodeSampledBitmapFromFile(imageFile, width, height);
+        File result = Util.overWrite(imageFile, bitmap, format, quality);
         isResolved = true;
         return result;
     }

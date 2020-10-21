@@ -2,6 +2,7 @@ package id.zelory.compressor.sample;
 
 import id.zelory.compressor.Compressor;
 import id.zelory.compressor.ResourceTable;
+import id.zelory.compressor.Util;
 import id.zelory.compressor.constraint.CompressFormat;
 import id.zelory.compressor.constraint.Compression;
 
@@ -26,6 +27,7 @@ import ohos.hiviewdfx.HiLogLabel;
 import ohos.media.image.ImageSource;
 import ohos.media.image.PixelMap;
 import ohos.media.image.common.PixelFormat;
+import ohos.media.image.common.Size;
 import ohos.rpc.RemoteException;
 
 import java.io.*;
@@ -111,8 +113,7 @@ public class MainAbility extends Ability {
         imageFile = pngFileList.get(index++);
         Image image = (Image)findComponentById(ResourceTable.Id_actualImageView);
         ImageSource imageSource = ImageSource.create(imageFile,null);
-        PixelMap bitmap = imageSource.createPixelmap(null);
-        image.setPixelMap(bitmap);
+        image.setPixelMap(Util.loadBitmap(imageFile));
         Text actualSize = (Text)findComponentById(ResourceTable.Id_actualSizeTextView);
         actualSize.setText("Size : " + getReadableFileSize(imageFile.length()));
 //        Intent intent = new Intent();
@@ -167,9 +168,11 @@ public class MainAbility extends Ability {
     }
 
     private File customCompressImage(File file) {
+        ImageSource imageSource = ImageSource.create(file, null);
+        Size size = imageSource.getImageInfo().size;
         Compressor compressor = new Compressor();
         Compression compression = new Compression();
-        compression.resolution(1280, 720);
+        compression.resolution(size.width, size.height);
         compression.quality(80);
         compression.format(CompressFormat.WEBP);
         compression.size(2048, 0, 0);
