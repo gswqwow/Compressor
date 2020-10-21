@@ -30,14 +30,15 @@ public class ResolutionConstraintTest {
         PowerMockito.mockStatic(String.class);
         PowerMockito.mockStatic(ImageSource.class);
         PowerMockito.mockStatic(ImageSource.SourceOptions.class);
-        File file = mock(File.class);
-        when(file.getAbsolutePath()).thenReturn("/");
-        when(ImageSource.create(file.getAbsolutePath(), null)).thenReturn(mock(ImageSource.class));
+        File file = PowerMockito.mock(File.class);
+        PowerMockito.when(file.getAbsolutePath()).thenReturn("/");
+        PowerMockito.when(ImageSource.create("/",null)).thenReturn(mock(ImageSource.class));
         PowerMockito.mockStatic(Util.class);
         ImageInfo imageInfo = mock(ImageInfo.class);
         imageInfo.size = mock(Size.class);
-        when(mock(ImageSource.class).getImageInfo()).thenReturn(imageInfo);
-        when(Util.decodeSampledBitmapFromFile(mock(File.class), 180, 180))
+        ImageSource is = PowerMockito.mock(ImageSource.class);
+        PowerMockito.when(is.getImageInfo()).thenReturn(imageInfo);
+        PowerMockito.when(Util.decodeSampledBitmapFromFile(mock(File.class), 180, 180))
                 .thenReturn(mock(PixelMap.class));
 
         ResolutionConstraint constraint = new ResolutionConstraint(100, 100);
@@ -52,8 +53,6 @@ public class ResolutionConstraintTest {
         PowerMockito.mockStatic(Util.class);
         when(Util.loadBitmap(mock(File.class))).thenReturn(mock(PixelMap.class));
         when(Util.overWrite(mock(File.class), mock(PixelMap.class), CompressFormat.JPEG, 10)).thenReturn(mock(File.class));
-        QualityConstraint qualityConstraint = new QualityConstraint(10);
-        qualityConstraint.satisfy(mock(File.class));
         assertEquals(true, constraint.isSatisfied(mock(File.class)));
     }
 
