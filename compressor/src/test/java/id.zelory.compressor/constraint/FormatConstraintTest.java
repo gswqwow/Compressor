@@ -27,13 +27,6 @@ public class FormatConstraintTest {
         assertEquals(true, constraint.isSatisfied(new File("a_file.webp")));
     }
 
-    /**
-     * TODO
-     */
-    @Test
-    public void when_trying_satisfy_constraint__it_should_save_image_with_selected_format() {
-
-    }
 
     @Test
     public void verify_extension() {

@@ -30,8 +30,8 @@ public class UtilTest {
         PowerMockito.mockStatic(ImagePacker.class);
         
         PowerMockito.mockStatic(ImagePacker.PackingOptions.class);
-        ImagePacker.PackingOptions PackingOptions = mock(ImagePacker.PackingOptions.class);
-        PowerMockito.whenNew(ImagePacker.PackingOptions.class).withAnyArguments().thenReturn(PackingOptions);
+        ImagePacker.PackingOptions packingOptions = mock(ImagePacker.PackingOptions.class);
+        PowerMockito.whenNew(ImagePacker.PackingOptions.class).withAnyArguments().thenReturn(packingOptions);
         when(ImagePacker.create()).thenReturn(imagePacker);
 
         Util.saveBitmap(bitmap,destination,CompressFormat.JPEG,10);

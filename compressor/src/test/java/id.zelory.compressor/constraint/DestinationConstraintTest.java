@@ -21,11 +21,11 @@ public class DestinationConstraintTest {
         assertEquals(constraint.isSatisfied(new File("a_file.jpg")),true);
     }
 
-    /**
-     * TODO IOException 需要抛出来吗
-     */
-    @Test
-    public void when_trying_satisfy_constraint__it_should_copy_image_to_destination() throws IOException {
+//    /**
+//     * TODO IOException 需要抛出来吗
+//     */
+//    @Test
+//    public void when_trying_satisfy_constraint__it_should_copy_image_to_destination() throws IOException {
 
 //        File imageFile = mock(File.class);
 //        File destination = mock(File.class);
@@ -36,17 +36,17 @@ public class DestinationConstraintTest {
 //        when(mock.copy(imageFile.toPath(), destination.toPath(), any())).thenReturn(mock(Path.class));
 //        constraint.satisfy(imageFile);
 //        verify(Files.copy(imageFile.toPath(), destination.toPath(),any()));
-    }
+//    }
 
 
-    @Test
-    public void verify_extension(){
+//    @Test
+//    public void verify_extension(){
 //        Compression compression = new Compression();
 //        compression.destination(mock(File.class));
 //
 //        if(!(compression.constraints.get(0) instanceof  DestinationConstraint)){
 //            fail("exp");
 //        }
-    }
+//    }
 
 }
