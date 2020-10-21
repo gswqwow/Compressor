@@ -20,14 +20,16 @@ public class CompressorTest {
 
 
     @Test
-    public void compressTest(){
+    public void compressTest() {
         PowerMockito.mockStatic(Util.class);
-        when(Util.copyToCache(mock(Context.class), mock(File.class))).thenReturn(mock(File.class));
-        when(mock(DefaultConstraint.class).isSatisfied(mock(File.class))).thenReturn(false);
+        Context context = mock(Context.class);
+        File file = mock(File.class);
+        when(Util.copyToCache(context, file)).thenReturn(file);
+        when(mock(DefaultConstraint.class).isSatisfied(file)).thenReturn(true);
         Compressor compressor = new Compressor();
 
-        File compress = compressor.compress(mock(Context.class), mock(File.class), null);
-        Assert.assertEquals(compress ,isNotNull());
+        File compress = compressor.compress(context, file, null);
+        Assert.assertEquals(compress, isNotNull());
     }
 
 }
