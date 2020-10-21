@@ -9,7 +9,6 @@ import static org.junit.Assert.assertEquals;
 
 public class DestinationConstraintTest {
 
-
     @Test
     public void when_destination_is_not_equal_with_image_file__constraint_should_not_satisfied(){
         DestinationConstraint constraint = new DestinationConstraint(new File("a_file.webp"));

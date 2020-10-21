@@ -1,6 +1,5 @@
 package id.zelory.compressor;
 
-import id.zelory.compressor.constraint.Constraint;
 import id.zelory.compressor.constraint.DefaultConstraint;
 import ohos.app.Context;
 import org.junit.Assert;
@@ -17,7 +16,6 @@ import static org.mockito.Mockito.*;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Util.class})
 public class CompressorTest {
-
 
     @Test
     public void compressTest() {

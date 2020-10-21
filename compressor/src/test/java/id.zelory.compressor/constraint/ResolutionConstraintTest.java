@@ -32,7 +32,7 @@ public class ResolutionConstraintTest {
         PowerMockito.mockStatic(ImageSource.SourceOptions.class);
         File file = PowerMockito.mock(File.class);
         PowerMockito.when(file.getAbsolutePath()).thenReturn("/");
-        PowerMockito.when(ImageSource.create("/",null)).thenReturn(mock(ImageSource.class));
+        PowerMockito.when(ImageSource.create("/", null)).thenReturn(mock(ImageSource.class));
         PowerMockito.mockStatic(Util.class);
         ImageInfo imageInfo = mock(ImageInfo.class);
         imageInfo.size = mock(Size.class);

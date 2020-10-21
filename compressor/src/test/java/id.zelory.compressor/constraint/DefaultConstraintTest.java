@@ -1,11 +1,8 @@
 package id.zelory.compressor.constraint;
 
 import id.zelory.compressor.Util;
-import ohos.hiviewdfx.HiLogLabel;
-import ohos.media.image.ImagePacker;
 import ohos.media.image.ImageSource;
 import ohos.media.image.PixelMap;
-import ohos.media.image.common.ImageInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
@@ -16,7 +13,6 @@ import java.io.File;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

@@ -1,10 +1,10 @@
 package id.zelory.compressor;
+
 import id.zelory.compressor.constraint.CompressFormat;
 import ohos.media.image.ImagePacker;
 import ohos.media.image.PixelMap;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -12,12 +12,12 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.io.File;
 import java.io.FileOutputStream;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Util.class,ImagePacker.class})
 public class UtilTest {
-
 
     @Test
     public void saveBitmapTest() throws Exception {
