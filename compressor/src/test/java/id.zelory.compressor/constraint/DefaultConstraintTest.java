@@ -23,14 +23,14 @@ public class DefaultConstraintTest {
 
     @Test
     public void when_satisfy_function_not_yet_invoked_constraint_should_not_satisfied() throws Exception {
-        Constraint constraint = new DefaultConstraint();
+        Constraint constraint = new DefaultConstraint(null,null,null,null);
         File file = mock(File.class);
         assertEquals(false, constraint.isSatisfied(file));
     }
 
     @Test
     public void when_satisfy_function_is_invoked_constraint_should_satisfied() {
-        Constraint constraint = new DefaultConstraint();
+        Constraint constraint = new DefaultConstraint(null,null,null,null);
         PowerMockito.mockStatic(Util.class);
 
         when(Util.decodeSampledBitmapFromFile(mock(File.class),180,180))

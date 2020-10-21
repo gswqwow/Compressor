@@ -16,6 +16,7 @@ import java.util.logging.Logger;
  * GitHub     : https://github.com/zetbaitsu
  */
 class FileUtil {
+
     static final Logger logger = Logger.getLogger(FileUtil.class.getName());
     private static final int EOF = -1;
     private static final int DEFAULT_BUFFER_SIZE = 1024 * 4;

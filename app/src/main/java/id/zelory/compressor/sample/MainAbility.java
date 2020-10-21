@@ -14,27 +14,18 @@ import ohos.agp.components.Image;
 import ohos.agp.components.Image.ScaleMode;
 import ohos.agp.components.Text;
 import ohos.agp.components.element.ShapeElement;
-import ohos.agp.utils.Color;
 import ohos.agp.window.dialog.ToastDialog;
-import ohos.event.notification.NotificationHelper;
-import ohos.event.notification.NotificationRequest;
-import ohos.event.notification.NotificationSlot;
 import ohos.eventhandler.EventHandler;
 import ohos.eventhandler.EventRunner;
 import ohos.eventhandler.InnerEvent;
-import ohos.hiviewdfx.HiLog;
-import ohos.hiviewdfx.HiLogLabel;
 import ohos.media.image.ImageSource;
 import ohos.media.image.PixelMap;
-import ohos.media.image.common.PixelFormat;
 import ohos.media.image.common.Size;
-import ohos.rpc.RemoteException;
 
 import java.io.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 import static java.lang.Math.log10;
@@ -217,10 +208,6 @@ public class MainAbility extends Ability {
         compressedBackground.setRgbColor(getRandomColor());
         compressedImage.setBackground(compressedBackground);
     }
-
-//    private void showError(String errorMessage) {
-//        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
-//    }
 
     private RgbColor getRandomColor() {
         Random r = new Random();
