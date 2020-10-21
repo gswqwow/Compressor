@@ -7,50 +7,46 @@ import ohos.media.image.common.ImageInfo;
 import ohos.media.image.common.Size;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.powermock.api.mockito.PowerMockito.*;
-
 import java.io.File;
-import java.util.zip.Inflater;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ImageSource.class,Util.class})
+@PrepareForTest({ImageSource.class, Util.class})
 public class ResolutionConstraintTest {
 
     /**
      * TODO
      */
     @Test
-    public void when_sampled_size_is_greater_than_1_constraint_should_not_satisfied(){
+    public void when_sampled_size_is_greater_than_1_constraint_should_not_satisfied() {
         PowerMockito.mockStatic(String.class);
         PowerMockito.mockStatic(ImageSource.class);
         PowerMockito.mockStatic(ImageSource.SourceOptions.class);
         File file = mock(File.class);
         when(file.getAbsolutePath()).thenReturn("/");
-        when(ImageSource.create(file.getAbsolutePath(),null)).thenReturn(mock(ImageSource.class));
+        when(ImageSource.create(file.getAbsolutePath(), null)).thenReturn(mock(ImageSource.class));
         PowerMockito.mockStatic(Util.class);
         ImageInfo imageInfo = mock(ImageInfo.class);
-        imageInfo.size=mock(Size.class);
+        imageInfo.size = mock(Size.class);
         when(mock(ImageSource.class).getImageInfo()).thenReturn(imageInfo);
-        when(Util.decodeSampledBitmapFromFile(mock(File.class),180,180))
+        when(Util.decodeSampledBitmapFromFile(mock(File.class), 180, 180))
                 .thenReturn(mock(PixelMap.class));
 
         ResolutionConstraint constraint = new ResolutionConstraint(100, 100);
 
-        assertEquals(false,constraint.isSatisfied(file));
+        assertEquals(false, constraint.isSatisfied(file));
     }
+
     @Test
-    public void when_sampled_size_is_equal_1__constraint_should_satisfied(){
+    public void when_sampled_size_is_equal_1__constraint_should_satisfied() {
         ResolutionConstraint constraint = new ResolutionConstraint(100, 100);
 
         PowerMockito.mockStatic(Util.class);
@@ -62,13 +58,20 @@ public class ResolutionConstraintTest {
     }
 
     @Test
-    public void when_trying_satisfy_constraint_it_should_subsampling_image_and_overwrite_file(){
+    public void when_trying_satisfy_constraint_it_should_subsampling_image_and_overwrite_file() {
 
     }
 
     @Test
-    public void verify_extension(){
+    public void verify_extension() {
+        // Given
+        Compression compression = new Compression();
 
+        // When
+        compression.resolution(100, 100);
+        if (!(compression.constraints.get(0) instanceof ResolutionConstraint)) {
+            fail("ResolutionConstraint");
+        }
     }
 
 }
