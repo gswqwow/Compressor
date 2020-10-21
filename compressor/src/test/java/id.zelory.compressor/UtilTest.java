@@ -35,6 +35,5 @@ public class UtilTest {
         when(ImagePacker.create()).thenReturn(imagePacker);
 
         Util.saveBitmap(bitmap,destination,CompressFormat.JPEG,10);
-
    }
 }

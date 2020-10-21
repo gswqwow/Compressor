@@ -27,7 +27,6 @@ public class FormatConstraintTest {
         assertEquals(true, constraint.isSatisfied(new File("a_file.webp")));
     }
 
-
     @Test
     public void verify_extension() {
         Compression compression = new Compression();

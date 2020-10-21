@@ -35,25 +35,6 @@ public class QualityConstraintTest {
         assertEquals(true, qualityConstraint.isSatisfied(mock(File.class)));
     }
 
-//    /**
-//     * TODO
-//     */
-//    @Test
-//    public void when_trying_satisfy_constraint__it_should_save_image_with_provided_quality() {
-//        PowerMockito.mockStatic(Util.class);
-//        when(Util.loadBitmap(mock(File.class))).thenReturn(mock(PixelMap.class));
-//        when(Util.overWrite(mock(File.class), mock(PixelMap.class), CompressFormat.JPEG, 10)).thenReturn(mock(File.class));
-//        File imageFile = mock(File.class);
-//        int quality = 75;
-//        QualityConstraint constraint = new QualityConstraint(quality);
-//
-//        // When
-//        constraint.satisfy(imageFile);
-//        Util.overWrite(imageFile, mock(PixelMap.class), any(), anyInt());
-////        verify(Util.overWrite(imageFile, mock(PixelMap.class), any(), anyInt()));
-//
-//    }
-
     @Test
     public void verify_extension() {
         // Given
