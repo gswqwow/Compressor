@@ -3,7 +3,6 @@ package id.zelory.compressor.constraint;
 import org.junit.Test;
 
 import java.io.File;
-import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
