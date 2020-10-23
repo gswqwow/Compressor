@@ -1,8 +1,6 @@
 package id.zelory.compressor.constraint;
 
 import id.zelory.compressor.Util;
-import ohos.hiviewdfx.HiLog;
-import ohos.hiviewdfx.HiLogLabel;
 import ohos.media.image.ImageSource;
 import ohos.media.image.PixelMap;
 import ohos.media.image.common.Size;

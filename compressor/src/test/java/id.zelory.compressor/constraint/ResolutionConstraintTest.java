@@ -20,7 +20,7 @@ public class ResolutionConstraintTest {
 
         // When
         compression.resolution(100, 100);
-        if (!(compression.constraints.get(0) instanceof ResolutionConstraint)) {
+        if (!(compression.getConstraints().get(0) instanceof ResolutionConstraint)) {
             fail("ResolutionConstraint");
         }
     }

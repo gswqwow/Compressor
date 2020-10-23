@@ -2,8 +2,6 @@ package id.zelory.compressor.constraint;
 
 import id.zelory.compressor.Util;
 import id.zelory.compressor.extutil.Intrinsics;
-import ohos.hiviewdfx.HiLog;
-import ohos.hiviewdfx.HiLogLabel;
 import ohos.media.image.PixelMap;
 
 import java.io.File;

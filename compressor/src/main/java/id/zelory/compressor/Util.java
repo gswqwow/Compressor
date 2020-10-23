@@ -7,15 +7,12 @@ import com.drew.metadata.exif.ExifDirectoryBase;
 import id.zelory.compressor.constraint.CompressFormat;
 import id.zelory.compressor.extutil.Intrinsics;
 import ohos.app.Context;
-import ohos.hiviewdfx.HiLog;
-import ohos.hiviewdfx.HiLogLabel;
 import ohos.media.image.ImagePacker;
 import ohos.media.image.ImageSource;
 import ohos.media.image.PixelMap;
 import ohos.media.image.common.Size;
 
 import java.io.*;
-import java.nio.file.Files;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

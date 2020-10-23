@@ -21,6 +21,6 @@ public final class CompressionTest {
         compression.constraint(defaultConstraint);
         compression.constraint(defaultConstraint1);
 
-        Assert.assertEquals(2, compression.constraints.size());
+        Assert.assertEquals(2, compression.getConstraints().size());
     }
 }

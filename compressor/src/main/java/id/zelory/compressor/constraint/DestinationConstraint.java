@@ -1,8 +1,6 @@
 package id.zelory.compressor.constraint;
 
 import id.zelory.compressor.extutil.Intrinsics;
-import ohos.hiviewdfx.HiLog;
-import ohos.hiviewdfx.HiLogLabel;
 
 import java.io.File;
 import java.io.IOException;

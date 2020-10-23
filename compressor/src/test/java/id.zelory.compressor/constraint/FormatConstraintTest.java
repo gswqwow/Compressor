@@ -32,7 +32,7 @@ public class FormatConstraintTest {
         Compression compression = new Compression();
         compression.format(CompressFormat.PNG);
         compression.compressionDefault();
-        if (!(compression.constraints.get(0) instanceof FormatConstraint)) {
+        if (!(compression.getConstraints().get(0) instanceof FormatConstraint)) {
             fail("DefaultConstraint");
         }
     }

@@ -11,7 +11,7 @@ import java.util.List;
 
 
 public class Compression {
-    public final List<Constraint> constraints;
+    private List<Constraint> constraints;
 
     public Compression() {
         this.constraints = new ArrayList<>();
@@ -54,5 +54,9 @@ public class Compression {
         stepSize = stepSize == 0 ? 10 : stepSize;
         maxIteration = maxIteration == 0 ? 10 : maxIteration;
         constraint(new SizeConstraint(maxFileSize, null, null, null));
+    }
+
+    public List<Constraint> getConstraints() {
+        return this.constraints;
     }
 }
