@@ -4,6 +4,7 @@ import id.zelory.compressor.constraint.Compression;
 import id.zelory.compressor.constraint.Constraint;
 import id.zelory.compressor.constraint.DefaultConstraint;
 import ohos.app.Context;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -46,8 +47,8 @@ public class CompressorTest {
         PowerMockito.when(Util.copyToCache(context, file)).thenReturn(file);
 
         Compressor compressor = new Compressor();
-        compressor.compress(context, file, compression);
-
+        File compressFile = compressor.compress(context, file, compression);
+        Assert.assertEquals(file,compressFile);
         //Mockito.verify(compression).compressionDefault(file);
     }
 
