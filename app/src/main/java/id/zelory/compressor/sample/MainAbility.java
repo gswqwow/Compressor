@@ -32,9 +32,9 @@ import static java.lang.Math.log10;
 
 public class MainAbility extends Ability {
 
-    List<File> pngFileList = new ArrayList<File>();
+    List<File> picFiles = new ArrayList<>();
     File imageFile = null;
-    int index = 0;
+    int index;
     EventRunner eventRunner = EventRunner.create(true);
     EventHandler eventHandler = new CompressHandler(eventRunner);
 
@@ -44,9 +44,13 @@ public class MainAbility extends Ability {
         super.setUIContent(ResourceTable.Layout_Ability_main);
         setBackgroundColor();
         clearImage();
-        Image image = (Image)findComponentById(ResourceTable.Id_actualImageView);
-        image.setScaleMode(ScaleMode.INSIDE);
         setupClickListener();
+        try{
+            picFiles.add(Util.resPathToFile(getContext(), "resources/rawfile/pic1.jpg"));
+            picFiles.add(Util.resPathToFile(getContext(), "resources/rawfile/pic2.jpg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setupClickListener() {
@@ -94,28 +98,24 @@ public class MainAbility extends Ability {
 
     private void chooseImage() {
         clearImage();
-        if(pngFileList.size() == 0){
-            File file = new File("/");
-            findPng(file);
-        }
-        if(index == pngFileList.size()){
+        if(index == picFiles.size()){
             index = 0;
         }
-        imageFile = pngFileList.get(index++);
+        imageFile = picFiles.get(index++);
         Image image = (Image)findComponentById(ResourceTable.Id_actualImageView);
-        ImageSource imageSource = ImageSource.create(imageFile,null);
         image.setPixelMap(Util.loadBitmap(imageFile));
         Text actualSize = (Text)findComponentById(ResourceTable.Id_actualSizeTextView);
         actualSize.setText("Size : " + getReadableFileSize(imageFile.length()));
+
 //        Intent intent = new Intent();
 //        Operation operation = new Intent.OperationBuilder()
 //                .withAction(Intent.ACTION_QUERY_WEATHER)
 //                .build();
 //        intent.setOperation(operation);
 //        startAbilityForResult(intent, 1);
-        Text toastText = (Text)findComponentById(ResourceTable.Id_toastTextView);
-        toastText.setText("");
     }
+
+
 
     @Override
     protected void onAbilityResult(int requestCode, int resultCode, Intent resultData) {
@@ -138,21 +138,6 @@ public class MainAbility extends Ability {
 //        }
     }
 
-    private void findPng(File file) {
-        if(pngFileList.size() >= 10){
-            return;
-        }
-        if(file != null && file.list() != null && file.list().length > 0){
-            for(File subFile : file.listFiles()){
-                findPng(subFile);
-            }
-        }else if(file != null && file.getName() != null && !file.getName().equals("")){
-            if(file.getName().contains(".png")){
-                pngFileList.add(file);
-            }
-        }
-    }
-
     private File compressImage(File file) {
         Compressor compressor = new Compressor();
         return compressor.compress(getContext(), file, null);
@@ -165,14 +150,13 @@ public class MainAbility extends Ability {
         Compression compression = new Compression();
         compression.resolution(size.width, size.height);
         compression.quality(80);
-        compression.format(CompressFormat.WEBP);
+        compression.format(CompressFormat.JPEG);
         compression.size(2048, 0, 0);
         return compressor.compress(getContext(), file, compression);
     }
 
     private void setCompressedImage(File compressedImage) {
         Image image = (Image)findComponentById(ResourceTable.Id_compressedImageView);
-        image.setScaleMode(ScaleMode.INSIDE);
         ImageSource imageSource = ImageSource.create(compressedImage,null);
         PixelMap bitmap = imageSource.createPixelmap(null);
         image.setPixelMap(bitmap);
@@ -200,10 +184,12 @@ public class MainAbility extends Ability {
 
     private void setBackgroundColor(){
         Image actualImage = (Image)findComponentById(ResourceTable.Id_actualImageView);
+        actualImage.setScaleMode(ScaleMode.INSIDE);
         ShapeElement actualBackground = new ShapeElement();
         actualBackground.setRgbColor(getRandomColor());
         actualImage.setBackground(actualBackground);
         Image compressedImage = (Image)findComponentById(ResourceTable.Id_compressedImageView);
+        compressedImage.setScaleMode(ScaleMode.INSIDE);
         ShapeElement compressedBackground = new ShapeElement();
         compressedBackground.setRgbColor(getRandomColor());
         compressedImage.setBackground(compressedBackground);
@@ -220,7 +206,7 @@ public class MainAbility extends Ability {
         }
         String[] units = {"B", "KB", "MB", "GB", "TB"};
         int digitGroups = (int)(log10(size.doubleValue()) / log10(1024.0));
-        return new DecimalFormat("#,##0.#").format(Math.pow(size / 1024.0, digitGroups)) + " " + units[digitGroups];
+        return new DecimalFormat("#,##0.#").format(size / Math.pow(1024.0, digitGroups)) + " " + units[digitGroups];
     }
 
     class CompressHandler extends EventHandler {
