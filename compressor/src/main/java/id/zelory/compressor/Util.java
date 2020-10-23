@@ -17,7 +17,6 @@ import ohos.media.image.PixelMap;
 import ohos.media.image.common.Size;
 
 import java.io.*;
-import java.nio.file.Files;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

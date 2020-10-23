@@ -43,7 +43,7 @@ public class QualityConstraintTest {
 
         // When
         compression.quality(90);
-        if (!(compression.constraints.get(0) instanceof QualityConstraint)) {
+        if (!(compression.getConstraints().get(0) instanceof QualityConstraint)) {
             fail("QualityConstraint");
         }
     }

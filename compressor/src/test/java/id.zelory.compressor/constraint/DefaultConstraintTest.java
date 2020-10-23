@@ -44,7 +44,7 @@ public class DefaultConstraintTest {
     public  void compressionDefaultTest(){
         Compression compression = new Compression();
         compression.compressionDefault();
-        if(!(compression.constraints.get(0) instanceof DefaultConstraint)){
+        if(!(compression.getConstraints().get(0) instanceof DefaultConstraint)){
             fail("DefaultConstraint");
         }
     }
