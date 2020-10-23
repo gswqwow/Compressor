@@ -1,6 +1,7 @@
 package id.zelory.compressor;
 
 import id.zelory.compressor.constraint.Compression;
+import id.zelory.compressor.constraint.Constraint;
 import id.zelory.compressor.constraint.DefaultConstraint;
 import ohos.app.Context;
 import org.junit.Test;
@@ -12,6 +13,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 
@@ -29,9 +31,14 @@ public class CompressorTest {
         PowerMockito.whenNew(Compression.class).withAnyArguments().thenReturn(compression);
 
         PowerMockito.doNothing().when(compression).compressionDefault(file);
-        PowerMockito.when(compression.getConstraints()).thenReturn(new ArrayList<>());
 
-        PowerMockito.when(dc.isSatisfied(any())).thenReturn(false);
+        List<Constraint> list =  new ArrayList<>();
+        list.add(dc);
+        //list.add(dc);
+
+        PowerMockito.when(compression.getConstraints()).thenReturn(list);
+
+        PowerMockito.when(dc.isSatisfied(any())).thenReturn(true);
         PowerMockito.when(dc.satisfy(any())).thenReturn(file);
 
         Context context = PowerMockito.mock(Context.class);
@@ -42,5 +49,17 @@ public class CompressorTest {
         compressor.compress(context, file, compression);
 
         //Mockito.verify(compression).compressionDefault(file);
+    }
+
+    @Test
+    public void compress_with_custom_specs_should_execute_all_constraint_provided() {
+//        DefaultConstraint dc = PowerMockito.mock(DefaultConstraint.class);
+//        Context context = PowerMockito.mock(Context.class);
+//        File file = new File("/");
+//
+//        PowerMockito
+//
+//        Compressor compressor = new Compressor();
+//        compressor.compress(context, file, null);
     }
 }
