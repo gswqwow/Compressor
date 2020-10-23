@@ -7,6 +7,8 @@ import com.drew.metadata.exif.ExifDirectoryBase;
 import id.zelory.compressor.constraint.CompressFormat;
 import id.zelory.compressor.extutil.Intrinsics;
 import ohos.app.Context;
+import ohos.global.resource.Resource;
+import ohos.global.resource.ResourceManager;
 import ohos.hiviewdfx.HiLog;
 import ohos.hiviewdfx.HiLogLabel;
 import ohos.media.image.ImagePacker;
@@ -20,6 +22,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public final class Util {
+
+    static HiLogLabel label = new HiLogLabel(HiLog.LOG_APP,0x00, "DEBUG");
     private static final Logger logger = Logger.getLogger(Util.class.getName());
     private static CompressFormat compressFormat;
 
@@ -115,11 +119,9 @@ public final class Util {
             case 3:
                 rotation = 180f;
                 break;
-            case 4:
-            case 5:
-            case 7:
             case 6:
                 rotation = 90f;
+                break;
             case 8:
                 rotation = 270f;
         }
@@ -188,6 +190,8 @@ public final class Util {
             file.mkdirs();
         }
 
+        HiLog.info(label, "quality : " + quality);
+
         try (
             FileOutputStream fileOutputStream = new FileOutputStream(destination.getAbsolutePath());
         ){
@@ -228,5 +232,18 @@ public final class Util {
             }
         }
     }
+
+    public static File resPathToFile(Context context, String resPath) throws IOException {
+        ResourceManager resourceManager = context.getResourceManager();
+        Resource resource = resourceManager.getRawFileEntry(resPath).openRawFile();
+        byte[] buffer = new byte[resource.available()];
+        resource.read(buffer);
+        String[] fileNames = resPath.split(File.separator);
+        File tempFile = new File(context.getCacheDir() + File.separator + fileNames[fileNames.length - 1]);
+        FileOutputStream fos = new FileOutputStream(tempFile);
+        fos.write(buffer);
+        return tempFile;
+    }
+
 }
 

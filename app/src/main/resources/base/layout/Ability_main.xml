@@ -25,7 +25,7 @@
 
             <Image
                     ohos:id="$+id:actualImageView"
-                    ohos:width="match_content"
+                    ohos:width="match_parent"
                     ohos:height="400"
                     />
         </DirectionalLayout>
