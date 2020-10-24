@@ -2,6 +2,8 @@ package id.zelory.compressor.constraint;
 
 
 import id.zelory.compressor.extutil.Intrinsics;
+import ohos.hiviewdfx.HiLog;
+import ohos.hiviewdfx.HiLogLabel;
 import ohos.media.image.ImageSource;
 import ohos.media.image.common.Size;
 
@@ -11,6 +13,8 @@ import java.util.List;
 
 
 public class Compression {
+
+    static HiLogLabel label = new HiLogLabel(HiLog.LOG_APP,0x00, "DEBUG");
     private List<Constraint> constraints;
 
     public Compression() {
@@ -20,6 +24,10 @@ public class Compression {
     public final void constraint(Constraint constraint) {
         Intrinsics.checkParameterIsNotNull(constraint, "constraint");
         this.constraints.add(constraint);
+        HiLog.info(label, "constraints.add()");
+        for(Constraint c : this.constraints){
+            HiLog.info(label, c.getClass().getName());
+        }
     }
 
     public void compressionDefault() {

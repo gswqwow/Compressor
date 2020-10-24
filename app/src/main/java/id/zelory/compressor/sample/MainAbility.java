@@ -18,6 +18,8 @@ import ohos.agp.window.dialog.ToastDialog;
 import ohos.eventhandler.EventHandler;
 import ohos.eventhandler.EventRunner;
 import ohos.eventhandler.InnerEvent;
+import ohos.hiviewdfx.HiLog;
+import ohos.hiviewdfx.HiLogLabel;
 import ohos.media.image.ImageSource;
 import ohos.media.image.PixelMap;
 import ohos.media.image.common.Size;
@@ -25,6 +27,7 @@ import ohos.media.image.common.Size;
 import java.io.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -32,6 +35,8 @@ import static java.lang.Math.log10;
 
 public class MainAbility extends Ability {
 
+    static HiLogLabel label = new HiLogLabel(HiLog.LOG_APP,0x00, "DEBUG");
+    long time;
     List<File> picFiles = new ArrayList<>();
     File imageFile = null;
     int index;
@@ -42,12 +47,13 @@ public class MainAbility extends Ability {
     public void onStart(Intent intent) {
         super.onStart(intent);
         super.setUIContent(ResourceTable.Layout_Ability_main);
+        HiLog.info(label, "onStart   Thread : " + EventRunner.current().toString());
         setBackgroundColor();
         clearImage();
         setupClickListener();
         try{
             picFiles.add(Util.resPathToFile(getContext(), "resources/rawfile/pic1.jpg"));
-            picFiles.add(Util.resPathToFile(getContext(), "resources/rawfile/pic2.jpg"));
+            picFiles.add(Util.resPathToFile(getContext(), "resources/rawfile/pic2.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -64,6 +70,7 @@ public class MainAbility extends Ability {
                 Runnable task = new Runnable() {
                     @Override
                     public void run() {
+                        HiLog.info(label, "Button2   Thread : " + EventRunner.current().toString());
                         File result = compressImage(imageFile);
                         InnerEvent event = InnerEvent.get(1, 0, result);
                         eventHandler.sendEvent(event, 0, EventHandler.Priority.IMMEDIATE);
@@ -139,11 +146,14 @@ public class MainAbility extends Ability {
     }
 
     private File compressImage(File file) {
+        HiLog.info(label, "compressImage()");
+        this.time = new Date().getTime();
         Compressor compressor = new Compressor();
         return compressor.compress(getContext(), file, null);
     }
 
     private File customCompressImage(File file) {
+        this.time = new Date().getTime();
         ImageSource imageSource = ImageSource.create(file, null);
         Size size = imageSource.getImageInfo().size;
         Compressor compressor = new Compressor();
@@ -151,11 +161,14 @@ public class MainAbility extends Ability {
         compression.resolution(size.width, size.height);
         compression.quality(80);
         compression.format(CompressFormat.JPEG);
-        compression.size(2048, 0, 0);
+        compression.size(50000, 0, 0);
         return compressor.compress(getContext(), file, compression);
     }
 
     private void setCompressedImage(File compressedImage) {
+        this.time = new Date().getTime() - this.time;
+        HiLog.info(label, "time is " + this.time);
+        this.time = 0;
         Image image = (Image)findComponentById(ResourceTable.Id_compressedImageView);
         ImageSource imageSource = ImageSource.create(compressedImage,null);
         PixelMap bitmap = imageSource.createPixelmap(null);
@@ -220,6 +233,7 @@ public class MainAbility extends Ability {
             super.processEvent(event);
             switch(event.eventId){
                 case 1:
+                    HiLog.info(label, "CompressHandler   Thread : " + EventRunner.current().toString());
                     File imageFile = (File)event.object;
                     setCompressedImage(imageFile);
                     break;

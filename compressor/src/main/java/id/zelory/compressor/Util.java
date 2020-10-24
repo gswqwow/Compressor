@@ -9,6 +9,8 @@ import id.zelory.compressor.extutil.Intrinsics;
 import ohos.app.Context;
 import ohos.global.resource.Resource;
 import ohos.global.resource.ResourceManager;
+import ohos.hiviewdfx.HiLog;
+import ohos.hiviewdfx.HiLogLabel;
 import ohos.media.image.ImagePacker;
 import ohos.media.image.ImageSource;
 import ohos.media.image.PixelMap;
@@ -20,6 +22,7 @@ import java.util.logging.Logger;
 
 public final class Util {
 
+//    static HiLogLabel label = new HiLogLabel(HiLog.LOG_APP,0x00, "DEBUG");
     private static final Logger logger = Logger.getLogger(Util.class.getName());
     private static CompressFormat compressFormat;
 
@@ -185,6 +188,14 @@ public final class Util {
         if (file != null) {
             file.mkdirs();
         }
+
+        Size size = bitmap.getImageInfo().size;
+//        HiLog.info(label, "saveBitmap()");
+//        HiLog.info(label, "destination : " + destination.getName());
+//        HiLog.info(label, "width : " + size.width);
+//        HiLog.info(label, "height : " + size.height);
+//        HiLog.info(label, "format : " + format.getName());
+//        HiLog.info(label, "quality : " + quality);
 
         try (
             FileOutputStream fileOutputStream = new FileOutputStream(destination.getAbsolutePath());
