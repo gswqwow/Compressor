@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  */
 public class DestinationConstraint implements Constraint {
 
-    static HiLogLabel label = new HiLogLabel(HiLog.LOG_APP,0x00, "DEBUG");
+//    static HiLogLabel label = new HiLogLabel(HiLog.LOG_APP,0x00, "DEBUG");
     private static final Logger logger = Logger.getLogger(DestinationConstraint.class.getName());
     private final File destination;
 
@@ -26,12 +26,12 @@ public class DestinationConstraint implements Constraint {
         super();
         Intrinsics.checkParameterIsNotNull(destination, "destination");
         this.destination = destination;
-        HiLog.info(label, "Destination constructor()  destination : "+this.destination.getName());
+//        HiLog.info(label, "Destination constructor()  destination : "+this.destination.getName());
     }
 
     public boolean isSatisfied(File imageFile) {
-        HiLog.info(label, "Destination  isSatisfied : "
-                + Intrinsics.areEqual(imageFile.getAbsolutePath(), this.destination.getAbsolutePath()));
+//        HiLog.info(label, "Destination  isSatisfied : "
+//                + Intrinsics.areEqual(imageFile.getAbsolutePath(), this.destination.getAbsolutePath()));
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
         return Intrinsics.areEqual(imageFile.getAbsolutePath(), this.destination.getAbsolutePath());
     }

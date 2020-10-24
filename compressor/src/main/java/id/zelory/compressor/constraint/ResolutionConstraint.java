@@ -17,23 +17,23 @@ import java.io.File;
  */
 public class ResolutionConstraint implements Constraint {
 
-    static HiLogLabel label = new HiLogLabel(HiLog.LOG_APP,0x00, "DEBUG");
+//    static HiLogLabel label = new HiLogLabel(HiLog.LOG_APP,0x00, "DEBUG");
     private final int width;
     private final int height;
 
     public ResolutionConstraint(int width, int height) {
         this.width = width;
         this.height = height;
-        HiLog.info(label, "Resolution constructor()");
-        HiLog.info(label, "width : " + this.width);
-        HiLog.info(label, "height : " + this.height);
+//        HiLog.info(label, "Resolution constructor()");
+//        HiLog.info(label, "width : " + this.width);
+//        HiLog.info(label, "height : " + this.height);
     }
 
     public boolean isSatisfied(File imageFile) {
         ImageSource imageSource = ImageSource.create(imageFile.getAbsolutePath(), null);
         Size size = imageSource.getImageInfo().size;
         boolean result = Util.calculateInSampleSize(size, width, height) <= 1;
-        HiLog.info(label, "Resolution  isSatisfied : " + result);
+//        HiLog.info(label, "Resolution  isSatisfied : " + result);
         return result;
     }
 

@@ -15,19 +15,19 @@ import java.io.File;
  */
 public class QualityConstraint implements Constraint {
 
-    static HiLogLabel label = new HiLogLabel(HiLog.LOG_APP,0x00, "DEBUG");
+//    static HiLogLabel label = new HiLogLabel(HiLog.LOG_APP,0x00, "DEBUG");
     private boolean isResolved = false;
     private final int quality;
 
     public QualityConstraint(int quality) {
         this.quality = quality;
-        HiLog.info(label, "Quality constructor()  quality : " + this.quality);
+//        HiLog.info(label, "Quality constructor()  quality : " + this.quality);
     }
 
     @Override
     public boolean isSatisfied(File imageFile) {
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
-        HiLog.info(label, "Quality  isSatisfied : " + this.isResolved);
+//        HiLog.info(label, "Quality  isSatisfied : " + this.isResolved);
         return this.isResolved;
     }
 

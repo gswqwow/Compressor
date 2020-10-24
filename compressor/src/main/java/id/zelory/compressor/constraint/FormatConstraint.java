@@ -15,19 +15,19 @@ import java.io.File;
  */
 public class FormatConstraint implements Constraint {
 
-    static HiLogLabel label = new HiLogLabel(HiLog.LOG_APP,0x00, "DEBUG");
+//    static HiLogLabel label = new HiLogLabel(HiLog.LOG_APP,0x00, "DEBUG");
     private final CompressFormat format;
 
     public FormatConstraint(CompressFormat format) {
         this.format = format;
-        HiLog.info(label, "Format constructor()  format : " + this.format.getName());
+//        HiLog.info(label, "Format constructor()  format : " + this.format.getName());
     }
 
     @Override
     public boolean isSatisfied(File imageFile) {
         Intrinsics.checkParameterIsNotNull(imageFile, "imageFile");
         boolean result = this.format == Util.compressFormat(imageFile);
-        HiLog.info(label, "Format  isSatisfied : " + result);
+//        HiLog.info(label, "Format  isSatisfied : " + result);
         return result;
     }
 

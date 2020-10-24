@@ -14,7 +14,7 @@ import java.util.List;
 
 public class Compression {
 
-    static HiLogLabel label = new HiLogLabel(HiLog.LOG_APP,0x00, "DEBUG");
+//    static HiLogLabel label = new HiLogLabel(HiLog.LOG_APP,0x00, "DEBUG");
     private List<Constraint> constraints;
 
     public Compression() {
@@ -24,9 +24,9 @@ public class Compression {
     public final void constraint(Constraint constraint) {
         Intrinsics.checkParameterIsNotNull(constraint, "constraint");
         this.constraints.add(constraint);
-        HiLog.info(label, "constraints.add()");
+//        HiLog.info(label, "constraints.add()");
         for(Constraint c : this.constraints){
-            HiLog.info(label, c.getClass().getName());
+//            HiLog.info(label, c.getClass().getName());
         }
     }
 
